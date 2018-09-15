@@ -33,19 +33,19 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="">
-            <a href="./">
+            <a href="./layout.php">
               <i class="fa fa-home"></i>
               <p>Inicio</p>
             </a>
           </li>
           <li>
-            <a href="./?view=tickets">
+            <a href="./ticket.php">
               <i class="fa fa-ticket"></i>
               <p>Tickets</p>  
             </a>
           </li>
           <li>
-            <a href="./?view=inventario">
+            <a href="./layout.php">
               <i class="fa fa-laptop"></i>
               <p>Inventario</p>
             </a>
@@ -119,32 +119,89 @@
             <div class="col-md-12">
 <div class="card">
   <div class="card-header" data-background-color="green">
-      <h4 class="title">Nuevo Ticket</h4>
+      <h4 class="title">Nueva Solicitud</h4>
   </div>
   <div class="card-content table-responsive">
-<form class="form-horizontal" role="form" method="post" action="./?action=addticket">
-
-  <div class="form-group">
-    <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
-    <div class="col-lg-10">
-<select name="kind_id" class="form-control" required>
-    <option value="redes">Redes</option>
-</select>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
+      <div class="col-lg-10">
+        <select name="kind_id" class="form-control" required onchange="location = this.value;">
+          <option value="layout.php">Equipo de Redes y Telecomunicación</option>
+          <option value="layoutRedes.php">Equipo Portátil</option>
+        </select>
+      </div>
+    </div>
+    <br><br>
+    <div class="form-group">
+      <center><label>Datos del solicitante</label></center>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Nombre</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Titulo">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Asunto</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputAsunto" placeholder="Titulo">
+      </div>
+    </div>
+    <br><br><br>
+    <input type="radio" name="title" required id="inputAlumno" placeholder="Titulo"> 
+    <label for="inputEmail1">Alumno</label>
+    <input type="radio" name="title" required id="inputProfesor" placeholder="Titulo">
+    <label for="inputEmail1">Profesor</label>
+    <br><br>
+    <div class="form-group">
+      <center><label>Datos del equipo</label></center>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Cantidad</label>
+      <div class="col-lg-10">
+        <select name="kind_id" class="form-control" required>
+          <option value="redes">1</option>
+          <option value="portatil">2</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Modelo</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputModelo" placeholder="Titulo">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Numero de serie</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputNumeroSerie" placeholder="Titulo">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Numero asignado al equipo</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Titulo">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">El computador portátil se presta con los siguientes accesorios</label>
+      <div class="col-lg-10">
+        <input type="checkbox" name="title" class="form-control" id="inputPder">Cable de alimentación y cargador
+        <input type="checkbox" name="title" class="form-control" id="inputMouse">Mouse
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Fecha de uso</label>
+      <div class="col-lg-10">
+        <input type="date" name="title" required class="form-control" id="inputNombre" placeholder="Titulo">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <button type="submit" class="btn btn-default">Generar solicitud</button>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label for="inputEmail1" class="col-lg-2 control-label">Nombre</label>
-    <div class="col-lg-10">
-      <input type="text" name="title" required class="form-control" id="inputEmail1" placeholder="Titulo">
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-lg-offset-2 col-lg-10">
-      <button type="submit" class="btn btn-default">Agregar Ticket</button>
-    </div>
-  </div>
-</form>
-</div>
 </div>
 </div>
           <!-- Aqui termina la vista -->
