@@ -126,8 +126,8 @@
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
         <select name="kind_id" class="form-control" required onchange="location = this.value;">
-          <option value="layout.php">Equipo de Redes y Telecomunicación</option>
-          <option value="layoutRedes.php">Equipo Portátil</option>
+          <option>Equipo de Redes y Telecomunicación</option>
+          <option>Equipo Portátil</option>
         </select>
       </div>
     </div>
@@ -138,7 +138,7 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Nombre</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Titulo">
+        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Titulo" value="Marco Antonio" readonly>
       </div>
     </div>
     <div class="form-group">
@@ -147,11 +147,12 @@
         <input type="text" name="title" required class="form-control" id="inputAsunto" placeholder="Titulo">
       </div>
     </div>
-    <br><br><br>
-    <input type="radio" name="title" required id="inputAlumno" placeholder="Titulo"> 
-    <label for="inputEmail1">Alumno</label>
-    <input type="radio" name="title" required id="inputProfesor" placeholder="Titulo">
-    <label for="inputEmail1">Profesor</label>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Tipo de solicitante</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Titulo" value="Alumno" readonly>
+      </div>
+    </div>
     <br><br>
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
