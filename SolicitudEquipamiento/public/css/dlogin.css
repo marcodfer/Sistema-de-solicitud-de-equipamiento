@@ -1,0 +1,81 @@
+body#LoginForm{ background: #376412;
+background: -moz-linear-gradient(top, #376412 0%, #b0b3ad 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, #376412), color-stop(100%, #b0b3ad));
+background: -webkit-linear-gradient(top, #376412 0%, #b0b3ad 100%);
+background: -o-linear-gradient(top, #376412 0%, #b0b3ad 100%);
+background: -ms-linear-gradient(top, #376412 0%, #b0b3ad 100%);
+background: linear-gradient(to bottom, #376412 0%, #b0b3ad 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#376412', endColorstr='#b0b3ad', GradientType=0 ); height: 100%;background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;}
+
+.form-heading { color:#fff; font-size:23px;}
+.panel h6{ color:#444444; font-size:25px; margin:0 0 8px 0;}
+.panel p { color:#777777; font-size:25px; margin-bottom:20px; line-height:24px;}
+.login-form .form-control {
+  background: #f7f7f7 none repeat scroll 0 0;
+  border: 1px solid #d4d4d4;
+  border-radius: 4px;
+  font-size: 14px;
+  height: 50px;
+  line-height: 50px;
+}
+.main-div {
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 2px;
+  margin: 90px auto 30px;
+  max-width: 38%;
+  padding: 50px 70px 70px 71px;
+}
+
+.login-form .form-group {
+  margin-bottom:10px;
+}
+
+.login-form{ text-align:center;}
+
+.form-group-d input[type="checkbox"] {
+    display: none;
+}
+
+.form-group-d input[type="checkbox"] + .btn-group > label span {
+    width: 10px;
+}
+
+.form-group-d input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group-d input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group-d input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group-d input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
+}
+
+.login-form  .btn.btn-primary {
+  background: #f0ad4e none repeat scroll 0 0;
+  border-color: #f0ad4e;
+  color: #ffffff;
+  font-size: 14px;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  padding: 0;
+}
+.forgot {
+  text-align: left; margin-bottom:30px;
+}
+.botto-text {
+  color: #ffffff;
+  font-size: 14px;
+  margin: auto;
+}
+.login-form .btn.btn-primary.reset {
+  background: #ff9900 none repeat scroll 0 0;
+}
+.back { text-align: left; margin-top:10px;}
+.back a {color: #444444; font-size: 13px;text-decoration: none;}
