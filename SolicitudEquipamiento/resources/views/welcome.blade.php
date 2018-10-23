@@ -20,8 +20,8 @@
    <p>Solicitud de Equipamiento</p>
    <h6>CIISA</h6>
    </div>
-   <!-- <form id="Login" action="{{ url('/layout')}}" method="post">-->
-    <form id="Login" action="{{ url('/layoutAdm')}}" method="post">
+    <!-- <form id="Login" action="{{ url('/layout')}}" method="post">-->
+   <form id="Login" action="{{ url('/layoutAdm')}}" method="post">
         {{csrf_field()}}
         <div class="form-group">
 

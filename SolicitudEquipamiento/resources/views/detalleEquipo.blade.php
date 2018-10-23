@@ -1,3 +1,6 @@
+
+
+
 <!doctype html>
 <html lang="es">
 <head>
@@ -93,7 +96,7 @@
             <div class="col-md-12">
 <div class="card">
   <div class="card-header" data-background-color="green">
-      <h4 class="title">Equipo 024</h4>
+      <h4 class="title">Equipo</h4>
   </div>
   <div class="card-content table-responsive">
     <div class="form-group">
@@ -131,10 +134,9 @@
       <label for="inputEmail1" class="col-lg-2 control-label">Estado</label>
       <div class="col-lg-10">
         <select name="kind_id" class="form-control" required>
-          <option>Disponible</option>
-          <option>Ocupado</option>
-          <option>Dado de baja</option>
-          <option>Mantenimiento</option>
+          @foreach($DatosEquipo as $DatoEquipo)
+          <option value="{{$DatoEquipo -> id}}">{{$DatoEquipo -> est_nombre}}</option>
+          @endforeach
         </select>
       </div>
     </div>

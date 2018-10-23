@@ -15,7 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/create','EquipoController@vista');
+Route::post('/create', 'EquipoController@create');
+Route::post('/crear','EquipoController@create');
 
+Route::get('/Detalle_del_equipo', 'EstadoEquipoController@read');
+
+Route::get('/equipoAdm', 'TipoEquipoController@read');
 
 Route::post('/layout', 'logincontrollerSE@layout');
 
@@ -33,8 +39,8 @@ Route::get('/layoutAdm', 'layoutAdm@layoutAdm');
 
 Route::get('/Inventario', 'layoutAdm@Inventario');
 
-Route::get('/equipoAdm', 'layoutAdm@equipoAdm');
+//Route::get('/equipoAdm', 'layoutAdm@equipoAdm');
 
 Route::get('/detalle-soporte', 'ticketSoporte@detalleS');
 
-Route::get('/detalleEquipo', 'Inventario@detalleEquipo');
+//Route::get('/detalleEquipo', 'Inventario@detalleEquipo');

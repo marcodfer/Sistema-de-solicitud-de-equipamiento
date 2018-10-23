@@ -136,7 +136,7 @@
 		<th>Ver detalle</th></thead>
 
 		
-		<tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href="{{ url('/detalleEquipo')}}"><input type="button" id="detalle" value="..." ></a></td></tr>
+		<tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href="{{ url('/Detalle_del_equipo')}}"><input type="button" id="detalle" value="..." ></a></td></tr>
 	</tbody>
 	</table></div>
 	
