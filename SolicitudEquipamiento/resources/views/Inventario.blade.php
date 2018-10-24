@@ -125,40 +125,38 @@
     
     </div>
 	</div>
+  <form action="/show" method="post">
 	<div class="datagrid"><table>
+  
+        
 		<thead><th>Codigo</th>
-      <th>Fecha de ingreso</th>
+      <th>Fecha de adquisición</th>
 		<th>Tipo</th>
 		<th>N° de serie</th>
 		<th>Marca</th>
 		<th>Modelo</th>
 		<th>Estado</th> 
 		<th>Ver detalle</th></thead>
-
+          <tbody>
+          @foreach($TablaInventario as $DatoEquipo)
+          <tr><td>{{$DatoEquipo -> equ_codigo}}</td><td>{{$DatoEquipo -> equ_fecha_adquisicion}}</td><td>{{ $DatoEquipo -> tip_nombre}}</td><td>{{$DatoEquipo -> equ_numero_serie}}</td><td>{{$DatoEquipo -> equ_marca}}</td><td>{{$DatoEquipo -> equ_modelo}}</td><td>{{ $DatoEquipo-> est_nombre}}</td><td><a href="{{url('/Detalle_del_equipo/'.$DatoEquipo->equ_codigo)}}">Ver</a></td></tr>
+          @endforeach
 		
-		<tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><a href="{{ url('/Detalle_del_equipo')}}"><input type="button" id="detalle" value="..." ></a></td></tr>
+		
 	</tbody>
+  </form>
 	</table></div>
-	
-
 	</div>
-		
-
-
 	</form>
       </div>
       </div>
-
-
   </div>
 </div>
-	
           <!-- Aqui termina la vista -->
           </div>
     </div>
   </div>
 </body>
-
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
   <script src="js/material.min.js" type="text/javascript"></script>
   <script src="js/chartist.min.js"></script>

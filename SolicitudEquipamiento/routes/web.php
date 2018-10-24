@@ -18,8 +18,11 @@ Route::get('/', function () {
 Route::get('/create','EquipoController@vista');
 Route::post('/create', 'EquipoController@create');
 Route::post('/crear','EquipoController@create');
+Route::get('/Inventario','EquipoController@read');
 
 Route::get('/Detalle_del_equipo', 'EstadoEquipoController@read');
+
+Route::get('/Detalle_del_equipo/{id}', 'EquipoController@show');
 
 Route::get('/equipoAdm', 'TipoEquipoController@read');
 
@@ -37,7 +40,7 @@ Route::get('/ticket-soporte', 'layoutAdm@ticketS');
 
 Route::get('/layoutAdm', 'layoutAdm@layoutAdm');
 
-Route::get('/Inventario', 'layoutAdm@Inventario');
+//Route::get('/Inventario', 'layoutAdm@Inventario');
 
 //Route::get('/equipoAdm', 'layoutAdm@equipoAdm');
 

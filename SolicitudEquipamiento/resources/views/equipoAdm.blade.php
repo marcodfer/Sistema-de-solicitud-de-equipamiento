@@ -89,7 +89,7 @@
 <!-- Aqui empieza la vista para un nuevo ticket -->
 
             <div class="col-md-12">
-<<div class="card">
+<div class="card">
   <div class="card-header" data-background-color="green">
       <h4 class="title">Nuevo Equipo</h4>
   </div>
@@ -109,6 +109,7 @@
           <option value="{{$TiposEquipo -> tip_id}}">{{$TiposEquipo -> tip_nombre}}</option>
         @endforeach
         </select>
+      </div>
       </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Numero asignado al equipo</label>

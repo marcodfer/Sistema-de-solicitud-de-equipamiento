@@ -1,6 +1,3 @@
-
-
-
 <!doctype html>
 <html lang="es">
 <head>
@@ -12,9 +9,9 @@
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="viewport" content="width=device-width" />
   <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/estilos.css" rel="stylesheet" />
   <link href="css/material-dashboard.css" rel="stylesheet"/>
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
-  <link href="css/estilos.css" rel="stylesheet" />
   <script src="js/jquery.min.js" type="text/javascript"></script>
   <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
   <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -86,13 +83,12 @@
       </nav>
       <div class="content">
       <div class="container-fluid">
-        <!-- Aqui empieza la vista de cantidad y tipo de ticket -->
-        <div class="row">
+          <!-- Aqui comienza la vista de tickets -->
+
+          <div class="row">
+  <div class="col-md-12">
 
 <!-- Aqui empieza la vista para un nuevo ticket -->
-
-
-
             <div class="col-md-12">
 <div class="card">
   <div class="card-header" data-background-color="green">
@@ -102,63 +98,68 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
-        <select name="kind_id" disabled="" class="form-control" required>
-          <option>Equipo de Redes y Telecomunicación</option>
-          <option>Equipo Portátil</option>
+        <select name="kind_id" disabled="true" class="form-control" required>
+          <option value="{{$detalle -> tip_nombre}}" >{{$detalle -> tip_nombre}}</option>
         </select>
       </div>
     </div>
     <br><br>
+    <form action="">
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
     </div>
     <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
+      <div class="col-lg-10">
+        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}">
+      </div>
+    </div>
+    <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Marca</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control" id="inputModelo" placeholder="Marca del equipo" value="">
+        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Marca del equipo" value="{{$detalle -> equ_marca}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Modelo</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control" id="inputModelo" placeholder="Modelo del equipo" value="">
+        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Modelo del equipo" value="{{$detalle -> equ_modelo}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Numero de serie</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control" id="inputNumeroSerie" placeholder="Numero de serie del equipo" value="">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail1" class="col-lg-2 control-label">Estado</label>
-      <div class="col-lg-10">
-        <select name="kind_id" class="form-control" required>
-          @foreach($DatosEquipo as $DatoEquipo)
-          <option value="{{$DatoEquipo -> id}}">{{$DatoEquipo -> est_nombre}}</option>
-          @endforeach
-        </select>
+        <input type="text" name="title" required class="form-control"  disabled="true" id="inputNumeroSerie" placeholder="Numero de serie del equipo" value="{{$detalle -> equ_numero_serie}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Fecha de adquisicion</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control" id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="">
+        <input type="text" name="title" required class="form-control"  disabled="true" id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="{{$detalle -> equ_fecha_adquisicion}}">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="inputEmail1" class="col-lg-2 control-label">Estado</label>
+      <div class="col-lg-10">
+        <select name="kind_id" disabled="true" class="form-control" required>
+          <option  value="{{$detalle -> est_nombre}}" >{{$detalle -> est_nombre}}</option>
+        </select>
       </div>
     </div>
     <div class="form-group">
         <a href="Inventario.html"><input type="submit" id="BCancelar" value="Modificar"></a>
         <a href="{{ url('/Inventario')}}"><input type="submit" id="BVolver" value="Volver"></a>
     </div>
+  </form>
   </div>
 </div>
 </div>
+
           <!-- Aqui termina la vista -->
           </div>
     </div>
   </div>
 </body>
-
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
   <script src="js/material.min.js" type="text/javascript"></script>
   <script src="js/chartist.min.js"></script>
