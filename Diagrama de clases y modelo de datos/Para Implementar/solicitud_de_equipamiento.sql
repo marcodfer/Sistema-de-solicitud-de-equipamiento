@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-10-2018 a las 03:25:07
+-- Tiempo de generación: 24-10-2018 a las 04:29:36
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -30,8 +30,6 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `sol_detalle_solicitud` (
   `det_id` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `est_codigo` int(11) NOT NULL,
   `sol_codigo` int(11) NOT NULL,
   `equ_codigo` varchar(30) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
@@ -58,6 +56,8 @@ CREATE TABLE `sol_equipos` (
 --
 
 INSERT INTO `sol_equipos` (`equ_codigo`, `equ_modelo`, `equ_marca`, `equ_numero_serie`, `equ_tipo_equipo`, `est_codigo`, `equ_fecha_adquisicion`, `equ_fecha_ingreso`) VALUES
+('12321312', 'sdlfkmdslkm', 'slkmsdlkm', '2342342', 1, 1, '2018-10-17', '2018-10-23 22:23:17'),
+('32131231', 'sdkasjdnk', 'nasddnask', '21982981298', 2, 1, '2018-10-03', '2018-10-24 02:06:09'),
 ('9099009', 'kjjkjkj', 'kkjkj', '0990909090', 1, 1, '2018-10-16', '2018-10-18 00:00:00'),
 ('qwe', 'qwe', 'qwe', 'qwe', 1, 1, '2018-10-16', '2018-10-18 00:00:00');
 
@@ -156,7 +156,8 @@ CREATE TABLE `sol_solicitudes` (
   `sol_fecha_creacion` datetime NOT NULL,
   `sol_fecha_entrega` datetime NOT NULL,
   `usu_rut` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
-  `sal_codigo` int(11) NOT NULL
+  `sal_codigo` int(11) NOT NULL,
+  `est_codigo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -212,7 +213,6 @@ CREATE TABLE `sol_usuarios` (
 --
 ALTER TABLE `sol_detalle_solicitud`
   ADD PRIMARY KEY (`det_id`),
-  ADD KEY `est_codigo` (`est_codigo`),
   ADD KEY `sol_codigo` (`sol_codigo`),
   ADD KEY `equ_codigo` (`equ_codigo`);
 
@@ -269,7 +269,8 @@ ALTER TABLE `sol_sedes`
 ALTER TABLE `sol_solicitudes`
   ADD PRIMARY KEY (`sol_codigo`),
   ADD KEY `usu_rut` (`usu_rut`),
-  ADD KEY `sal_codigo` (`sal_codigo`);
+  ADD KEY `sal_codigo` (`sal_codigo`),
+  ADD KEY `est_codigo` (`est_codigo`);
 
 --
 -- Indices de la tabla `sol_tipos_equipo`
@@ -362,9 +363,8 @@ ALTER TABLE `sol_tipos_usuario`
 -- Filtros para la tabla `sol_detalle_solicitud`
 --
 ALTER TABLE `sol_detalle_solicitud`
-  ADD CONSTRAINT `sol_detalle_solicitud_ibfk_1` FOREIGN KEY (`sol_codigo`) REFERENCES `sol_solicitudes` (`sol_codigo`),
-  ADD CONSTRAINT `sol_detalle_solicitud_ibfk_2` FOREIGN KEY (`est_codigo`) REFERENCES `sol_estados_solicitud` (`est_codigo`),
-  ADD CONSTRAINT `sol_detalle_solicitud_ibfk_3` FOREIGN KEY (`equ_codigo`) REFERENCES `sol_equipos` (`equ_codigo`);
+  ADD CONSTRAINT `sol_detalle_solicitud_ibfk_3` FOREIGN KEY (`equ_codigo`) REFERENCES `sol_equipos` (`equ_codigo`),
+  ADD CONSTRAINT `sol_detalle_solicitud_ibfk_4` FOREIGN KEY (`sol_codigo`) REFERENCES `sol_solicitudes` (`sol_codigo`);
 
 --
 -- Filtros para la tabla `sol_equipos`
@@ -396,7 +396,8 @@ ALTER TABLE `sol_salas`
 --
 ALTER TABLE `sol_solicitudes`
   ADD CONSTRAINT `sol_solicitudes_ibfk_1` FOREIGN KEY (`usu_rut`) REFERENCES `sol_usuarios` (`usu_rut`) ON DELETE NO ACTION ON UPDATE CASCADE,
-  ADD CONSTRAINT `sol_solicitudes_ibfk_3` FOREIGN KEY (`sal_codigo`) REFERENCES `sol_salas` (`sal_codigo`) ON DELETE NO ACTION ON UPDATE CASCADE;
+  ADD CONSTRAINT `sol_solicitudes_ibfk_3` FOREIGN KEY (`sal_codigo`) REFERENCES `sol_salas` (`sal_codigo`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `sol_solicitudes_ibfk_4` FOREIGN KEY (`est_codigo`) REFERENCES `sol_estados_solicitud` (`est_codigo`);
 
 --
 -- Filtros para la tabla `sol_usuarios`
