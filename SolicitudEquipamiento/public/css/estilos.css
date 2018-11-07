@@ -335,3 +335,4 @@ shadow:inset 0px 0px 0px 0px #a4e271;
 .form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
     display: none;   
 }
+

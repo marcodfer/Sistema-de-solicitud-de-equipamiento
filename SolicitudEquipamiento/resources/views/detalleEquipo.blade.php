@@ -8,13 +8,13 @@
 
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="viewport" content="width=device-width" />
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/estilos.css" rel="stylesheet" />
-  <link href="css/material-dashboard.css" rel="stylesheet"/>
-  <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" />
+  <link href="{{asset('css/estilos.css')}}" rel="stylesheet" />
+  <link href="{{asset('css/material-dashboard.css')}}" rel="stylesheet"/>
+  <link href="{{asset('font-awesome/css/font-awesome.min.csss')}}" rel="stylesheet">
   <script src="js/jquery.min.js" type="text/javascript"></script>
-  <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
-  <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+  <link href="{{asset('fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
+  <link href="{{asset('fullcalendar/fullcalendar.print.css')}}" media='print' />
   <script src='fullcalendar/moment.min.js'></script>
   <script src='fullcalendar/fullcalendar.min.js'></script>
 
@@ -104,38 +104,38 @@
       </div>
     </div>
     <br><br>
-    <form action="">
+    <form action="/update">
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}">
+        <input type="text" name="title" disabled="true" required class="form-control"   id="inputModelo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"> <a href="{{ url('/Inventario')}}" class="btn btn-success" role="button">Modificar</a>
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Marca</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Marca del equipo" value="{{$detalle -> equ_marca}}">
+        <input type="text" name="title" required class="form-control"  id="inputModelo" placeholder="Marca del equipo" value="{{$detalle -> equ_marca}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Modelo</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  disabled="true" id="inputModelo" placeholder="Modelo del equipo" value="{{$detalle -> equ_modelo}}">
+        <input type="text" name="title" required class="form-control"   id="inputModelo" placeholder="Modelo del equipo" value="{{$detalle -> equ_modelo}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Numero de serie</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  disabled="true" id="inputNumeroSerie" placeholder="Numero de serie del equipo" value="{{$detalle -> equ_numero_serie}}">
+        <input type="text" name="title" required class="form-control"  id="inputNumeroSerie" placeholder="Numero de serie del equipo" value="{{$detalle -> equ_numero_serie}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Fecha de adquisicion</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  disabled="true" id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="{{$detalle -> equ_fecha_adquisicion}}">
+        <input type="text" name="title" required class="form-control"  id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="{{$detalle -> equ_fecha_adquisicion}}">
       </div>
     </div>
     <div class="form-group">
@@ -146,10 +146,78 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-        <a href="Inventario.html"><input type="submit" id="BCancelar" value="Modificar"></a>
-        <a href="{{ url('/Inventario')}}"><input type="submit" id="BVolver" value="Volver"></a>
+    <div  class="form-check">
+      <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label for="mantencion">
+          <input type="checkbox" id="mantencion" name="options" value="mantencion" onclick="ShowMantencion()" class="only-one"> Mantencion
+        </label>
+        <label for="baja">
+          <input type="checkbox" id="baja" name="options" value="baja" onclick="ShowDarDeBaja() " class="only-one"> Dar De Baja
+        </label>
+        
+      <div class="form-group"  id = "fMantencion" style="display: none" >
+          <label for="fechaInicio" class="col-lg-2 control-label">Fecha de Inicio</label>
+            <div class="col-lg-10">
+             <input type="date" name="title" required class="form-control"  id="FInicio" placeholder="Fecha de inicio mantencion" value="">
+            </div>
+
+            <label for="fechaTermino" class="col-lg-2 control-label">Fecha de Termino</label>
+            <div class="col-lg-10">
+             <input type="date" name="title" required class="form-control"  id="FTermino" placeholder="Fecha de termino mantencion" value="">
+            </div>
+
+            <label for="Comentario" class="col-lg-2 control-label">Comentario</label>
+            <div class="col-lg-10" >
+             <textarea class="form-control z-depth-1" name="Mtextarea"placeholder="Agregue un Comentario"  rows="10" cols="50"></textarea>
+            </div>
+      </div>
+
+      <div class="form-group"  id = "fBaja" style="display: none" >
+          
+            <label for="Comentario" class="col-lg-2 control-label">Comentario</label>
+            <div class="col-lg-10" >
+             <textarea class="form-control z-depth-1" name="Btextarea" placeholder="Agregue un Comentario"  rows="10" cols="50"></textarea>
+            </div>
+      </div>
+         <script type="text/javascript">
+
+          //let Checked = null;
+              //The class name can vary
+          //for (let CheckBox of document.getElementsByClassName('only-one')){
+            //CheckBox.onclick = function(){
+
+                //if(Checked!=null){
+                 //Checked.checked = false;
+                 //Checked = CheckBox;
+            //}
+              //Checked = CheckBox;
+           //}
+          //}
+
+          function ShowMantencion() {
+          var mantencion = document.getElementById ( "mantencion" );
+          var fMantencion = document.getElementById ( "fMantencion" );
+          fMantencion.style.display = mantencion.checked? "block": "none" ;
+          }
+          function ShowDarDeBaja() {
+          var baja = document.getElementById ( "baja" );
+          var fBaja = document.getElementById ( "fBaja" );
+          fBaja.style.display = baja.checked? "block" : "none" ;
+
+          }
+
+
+        </script> 
+        
+      </div>
     </div>
+    <div class="form-group">
+      <div class="col-lg-10">
+        <button  class="btn btn-success">Modificar</button>
+      <a href="{{ url('/Inventario')}}" class="btn btn-secondary" role="button">Volver</a>
+      </div>
+    </div>
+
   </form>
   </div>
 </div>

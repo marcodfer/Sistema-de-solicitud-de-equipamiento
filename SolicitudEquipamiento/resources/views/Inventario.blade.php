@@ -12,6 +12,7 @@
   <link href="css/estilos.css" rel="stylesheet" />
   <link href="css/material-dashboard.css" rel="stylesheet"/>
   <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"></script> 
   <script src="js/jquery.min.js" type="text/javascript"></script>
   <link href='fullcalendar/fullcalendar.min.css' rel='stylesheet' />
   <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -139,7 +140,7 @@
 		<th>Ver detalle</th></thead>
           <tbody>
           @foreach($TablaInventario as $DatoEquipo)
-          <tr><td>{{$DatoEquipo -> equ_codigo}}</td><td>{{$DatoEquipo -> equ_fecha_adquisicion}}</td><td>{{ $DatoEquipo -> tip_nombre}}</td><td>{{$DatoEquipo -> equ_numero_serie}}</td><td>{{$DatoEquipo -> equ_marca}}</td><td>{{$DatoEquipo -> equ_modelo}}</td><td>{{ $DatoEquipo-> est_nombre}}</td><td><a href="{{url('/Detalle_del_equipo/'.$DatoEquipo->equ_codigo)}}">Ver</a></td></tr>
+          <tr><td>{{$DatoEquipo -> equ_codigo}}</td><td>{{$DatoEquipo -> equ_fecha_adquisicion}}</td><td>{{ $DatoEquipo -> tip_nombre}}</td><td>{{$DatoEquipo -> equ_numero_serie}}</td><td>{{$DatoEquipo -> equ_marca}}</td><td>{{$DatoEquipo -> equ_modelo}}</td><td>{{ $DatoEquipo-> est_nombre}}</td><td><a href="{{url('/Detalle_del_equipo/'.$DatoEquipo->equ_codigo)}}"><input type="button" id="detalle" value="..."></a></td></tr>
           @endforeach
 		
 		
