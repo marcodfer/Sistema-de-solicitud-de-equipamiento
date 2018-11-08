@@ -50,5 +50,17 @@ class EquipoController extends Controller
     return view ('/detalleequipo', ['detalle'=>$Equipo]);
     }
 
-
+    public function update($id){
+       @switch($k)
+            @case(0)
+                fsdfsdf
+            @breakswitch
+             @case(1)
+                sdfsdf
+            @breakswitch
+            @case(2)
+                sdf
+            @breakswitch
+        @endswitch
+    }
 }

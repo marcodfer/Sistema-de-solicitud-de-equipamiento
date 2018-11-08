@@ -104,7 +104,7 @@
       </div>
     </div>
     <br><br>
-    <form action="/update">
+    <form action="/update" method="POST">
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
     </div>
@@ -181,29 +181,24 @@
       </div>
          <script type="text/javascript">
 
-          //let Checked = null;
-              //The class name can vary
-          //for (let CheckBox of document.getElementsByClassName('only-one')){
-            //CheckBox.onclick = function(){
-
-                //if(Checked!=null){
-                 //Checked.checked = false;
-                 //Checked = CheckBox;
-            //}
-              //Checked = CheckBox;
-           //}
-          //}
 
           function ShowMantencion() {
           var mantencion = document.getElementById ( "mantencion" );
+          var baja = document.getElementById ( "baja" );
+          var fBaja = document.getElementById ( "fBaja" );
           var fMantencion = document.getElementById ( "fMantencion" );
           fMantencion.style.display = mantencion.checked? "block": "none" ;
+          baja.checked = false;
+          fBaja.style.display = mantencion.checked? "none": "block" ;
           }
           function ShowDarDeBaja() {
           var baja = document.getElementById ( "baja" );
+          var mantencion = document.getElementById ( "mantencion" );
           var fBaja = document.getElementById ( "fBaja" );
+          var fMantencion = document.getElementById ( "fMantencion" );
           fBaja.style.display = baja.checked? "block" : "none" ;
-
+          mantencion.checked = false;
+          fMantencion.style.display = baja.checked? "none": "block" ;
           }
 
 
