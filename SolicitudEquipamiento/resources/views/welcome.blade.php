@@ -4,7 +4,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <html>
 <head>
-    <title>Solicitud de Equipamiento</title>
+    <title>Inicio de Sesion</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -20,23 +20,20 @@
    <p>Solicitud de Equipamiento</p>
    <h6>CIISA</h6>
    </div>
-    <!-- <form id="Login" action="{{ url('/layout')}}" method="post">-->
-   <form id="Login" action="{{ url('/layoutAdm')}}" method="post">
+    <form action="IniciarSesion" method="POST">
         {{csrf_field()}}
-        <div class="form-group">
-
-
-            <input type="email" class="form-control" id="inputEmail" placeholder="Rut">
-
+        <div class="form-group {{ $errors->has('usu_rut') ? 'has-error' : '' }}">
+            <input type="text" class="form-control" name="usu_rut" placeholder="Rut" value="{{ old('usu_rut') }}">
+            {!! $errors->first('usu_rut', '<span class="help-block">:message</span>>') !!}
         </div>
 
         <div class="form-group">
-
-            <input type="password" class="form-control" id="inputPassword" placeholder="Password">
-
+            <input type="password" class="form-control" name="usu_contraseña" placeholder="Password">
+            {!! $errors->first('usu_contraseña', '<span class="help-block">:message</span>>') !!}
         </div>
 
         <button type="submit" class="btn btn-primary">Ingresar</button>
+
         <div class="form-group-d">
             <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" autocomplete="off" />
             <div class="btn-group">

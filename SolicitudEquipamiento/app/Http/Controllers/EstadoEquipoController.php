@@ -8,7 +8,7 @@ use App\EstadoEquipo;
 class EstadoEquipoController extends Controller
 {
     public function vista(){
-        return view("detalleEquipo");
+        return view("DetalleDeEquipo");
 
     }
 
@@ -18,13 +18,11 @@ class EstadoEquipoController extends Controller
             $EstadoEquipo -> est_codigo = $request -> est_codigo;
     		$EstadoEquipo -> est_nombre = $request -> est_nombre;
     		$EstadoEquipo -> save();
-    		return redirect('/detalleEquipo');
+    		return redirect('/DetalleDeEquipo');
     }
   
 	public function read(Request $request){
 		$EstadoEquipo =  EstadoEquipo::all();
-		return view ('/detalleEquipo', ['DatosEquipo'=>$EstadoEquipo]);
+		return view ('/DetalleDeEquipo', ['DatosEquipo'=>$EstadoEquipo]);
 	} 
-
-
 }

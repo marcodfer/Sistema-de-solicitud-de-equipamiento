@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Equipo;
+use App\Baja;
+use App\Mantenimiento;
 use App\Http\Requests;
 use Carbon\Carbon;
 use DB;
+
 class EquipoController extends Controller
 {
     public function vista(){
-    	return view('equipoAdm');
+    	return view('AgregarEquipo');
     }
 
     public function create(Request $request){
@@ -27,7 +30,7 @@ class EquipoController extends Controller
     		$Equipo -> equ_fecha_adquisicion =$request -> equ_fecha_adquisicion; 
     		$Equipo -> equ_fecha_ingreso = Carbon::now();  
     		$Equipo -> save();
-    		return redirect('/Inventario');
+    		return redirect('/ListarEquipos');
 
     }
 
@@ -38,7 +41,7 @@ class EquipoController extends Controller
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
             ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','equ_fecha_adquisicion')
             ->get();
-    return view ('/Inventario', ['TablaInventario'=>$Equipo]);
+    return view ('/ListarEquipos', ['TablaInventario'=>$Equipo]);
     }
 
     public function show($id){
@@ -47,9 +50,22 @@ class EquipoController extends Controller
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
             ->select('sol_equipos.equ_codigo','sol_equipos.equ_modelo','sol_equipos.equ_marca','sol_equipos.equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','sol_equipos.equ_fecha_adquisicion')->where ('sol_equipos.equ_codigo','=',$id)->
             first();
-    return view ('/detalleequipo', ['detalle'=>$Equipo]);
+    return view ('/DetalleDeEquipo', ['detalle'=>$Equipo]);
     }
 
+    public function update(Request $request){
+        $equipoU = Equipo::find($request -> equ_codigo);
+
+        $equipoU -> equ_modelo = $request -> equ_modelo;
+        $equipoU -> equ_marca = $request -> equ_marca;
+        $equipoU -> equ_numero_serie = $request -> equ_numero_serie;
+        $equipoU -> equ_tipo_equipo = $request -> equ_tipo_equipo;
+        $equipoU -> est_codigo = $request -> est_codigo;
+        $equipoU -> equ_fecha_adquisicion = $request -> equ_fecha_adquisicion;
+        $equipoU -> equ_fecha_ingreso = $request -> equ_fecha_ingreso;
+        
+    }
+/*
     public function update($id){
        @switch($k)
             @case(0)
@@ -62,5 +78,5 @@ class EquipoController extends Controller
                 sdf
             @breakswitch
         @endswitch
-    }
+    }*/
 }

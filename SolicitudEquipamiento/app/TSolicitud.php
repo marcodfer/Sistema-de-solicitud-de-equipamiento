@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Equipo extends Model
+class TSolicitud extends Model
 {
-    protected $table = 'sol_equipos';
+    protected $table = 'sol_solicitudes';
 
     public $timestamps = false;
 }

@@ -11,39 +11,42 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'UsuarioController@vista');
+
+Route::post('IniciarSesion', 'UsuarioController@iniciar');
+
+Route::get('/Solicitud', 'SolicitudController@generar')->name('Solicitud');
+
+Route::post('/Solicitud', 'SolicitudController@generar')->name('generar');
+
+Route::get('/ListaSolicitud','SolicitudController@read');
+
+Route::post('/ListaSolicitud','SolicitudController@read');
+
+
+
+
+
+
+Route::post('/Update', 'EquipoController@update');
 
 Route::get('/create','EquipoController@vista');
+
 Route::post('/create', 'EquipoController@create');
+
 Route::post('/crear','EquipoController@create');
-Route::get('/Inventario','EquipoController@read');
 
-Route::get('/Detalle_del_equipo', 'EstadoEquipoController@read');
+Route::get('/DetalleDeEquipo/{id}', 'EquipoController@show');
 
-Route::get('/Detalle_del_equipo/{id}', 'EquipoController@show');
+Route::get('/ListarEquipos','EquipoController@read');
 
-Route::get('/equipoAdm', 'TipoEquipoController@read');
+Route::get('/DetalleDeEquipo', 'EstadoEquipoController@read');
 
-Route::post('/layout', 'logincontrollerSE@layout');
+Route::get('/DetalleDeEquipo', 'EquipoController@show');
 
-Route::post('/layoutAdm', 'logincontrollerSE@layoutAdm');
+Route::get('/AgregarEquipo', 'TipoDeEquipoController@read');
 
-Route::get('/layout', 'layoutA@inicio');
-
-Route::get('/ticket', 'layoutA@ticket');
 
 Route::get('/detalle', 'ticket@detalle');
 
-Route::get('/ticket-soporte', 'layoutAdm@ticketS');
-
-Route::get('/layoutAdm', 'layoutAdm@layoutAdm');
-
-//Route::get('/Inventario', 'layoutAdm@Inventario');
-
-//Route::get('/equipoAdm', 'layoutAdm@equipoAdm');
-
 Route::get('/detalle-soporte', 'ticketSoporte@detalleS');
-
-//Route::get('/detalleEquipo', 'Inventario@detalleEquipo');
