@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-11-2018 a las 20:13:15
--- Versión del servidor: 10.1.31-MariaDB
--- Versión de PHP: 7.2.3
+-- Tiempo de generación: 09-11-2018 a las 02:52:30
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -73,6 +73,7 @@ CREATE TABLE `sol_equipos` (
 --
 
 INSERT INTO `sol_equipos` (`equ_codigo`, `equ_modelo`, `equ_marca`, `equ_numero_serie`, `equ_tipo_equipo`, `est_codigo`, `equ_fecha_adquisicion`, `equ_fecha_ingreso`) VALUES
+('123-2', 'kasd', 'kas', 'dq', 1, 1, '2018-11-21', '2018-11-08 21:35:04'),
 ('12321312', 'sdlfkmdslkm', 'slkmsdlkm', '2342342', 1, 2, '2018-10-17', '2018-10-23 22:23:17'),
 ('9099009', 'kjjkjkj', 'kkjkj', '0990909090', 1, 2, '2018-10-16', '2018-10-18 00:00:00'),
 ('qwe', 'qwe', 'qwe', 'qwe', 1, 2, '2018-10-16', '2018-10-18 00:00:00'),
@@ -90,6 +91,18 @@ CREATE TABLE `sol_equipo_baja` (
   `equ_id` int(11) NOT NULL,
   `equ_fecha` int(11) NOT NULL,
   `equ_observacion` varchar(500) COLLATE utf8_spanish_ci NOT NULL,
+  `equ_codigo` varchar(30) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sol_equipo_eliminar`
+--
+
+CREATE TABLE `sol_equipo_eliminar` (
+  `equ_id` int(11) NOT NULL,
+  `equ_fecha` datetime NOT NULL,
   `equ_codigo` varchar(30) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
@@ -312,6 +325,13 @@ ALTER TABLE `sol_equipo_baja`
   ADD KEY `equ_codigo` (`equ_codigo`);
 
 --
+-- Indices de la tabla `sol_equipo_eliminar`
+--
+ALTER TABLE `sol_equipo_eliminar`
+  ADD PRIMARY KEY (`equ_id`),
+  ADD KEY `equ_codigo` (`equ_codigo`);
+
+--
 -- Indices de la tabla `sol_equipo_mantencion`
 --
 ALTER TABLE `sol_equipo_mantencion`
@@ -385,6 +405,12 @@ ALTER TABLE `sol_detalle_solicitud`
 -- AUTO_INCREMENT de la tabla `sol_equipo_baja`
 --
 ALTER TABLE `sol_equipo_baja`
+  MODIFY `equ_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `sol_equipo_eliminar`
+--
+ALTER TABLE `sol_equipo_eliminar`
   MODIFY `equ_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
