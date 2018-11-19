@@ -15,7 +15,7 @@
   </div>
   <div class="card-content table-responsive">
 
-    <form action="/" method="POST">
+    <form action="{{url('/update/')}}" method="POST">
     {{csrf_field()}}
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
@@ -32,7 +32,7 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_codigo"  class="form-control"   id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"><!-- <a href="{{ url('/Inventario')}}" class="btn btn-success" role="button">Modificar</a>-->
+        <input type="text" name="equ_codigo" required class="form-control"   id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"><!-- <a href="{{ url('/Inventario')}}" class="btn btn-success" role="button">Modificar</a>-->
       </div>
     </div>
     <div class="form-group">
@@ -56,16 +56,16 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Fecha de adquisicion</label>
       <div class="col-lg-10">
-        <input type="text" name="title" required class="form-control"  id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="{{$detalle -> equ_fecha_adquisicion}}">
+        <input type="date" name="equ_fecha_adquisicion" required class="form-control"  id="inputNombre" placeholder="Fecha de adquisicion del equipo" value="{{$detalle -> equ_fecha_adquisicion}}">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Estado</label>
       <div class="col-lg-10">
-        <input type="text" name="title" disabled="true" required class="form-control"  id="Estado" placeholder="Estado" value="{{$detalle -> est_nombre}}">
+        <input type="text" name="est_codigo" disabled="true" required class="form-control"  id="Estado" placeholder="Estado" value="{{$detalle -> est_nombre}}">
       </div>
     </div>
-    <div  class="form-check">
+    <!--<div  class="form-check">
         <label for="mantencion">
           <input type="checkbox" id="mantencion" name="options" value="mantencion" onclick="ShowMantencion()" class="only-one"> Mantencion
         </label>
@@ -149,10 +149,10 @@
 
         </script> 
         
-    </div>
+    </div>-->
     <div class="form-group">
       <div class="col-lg-10">
-        <button type="submit" name='modificar' class="btn btn-success">Modificar</button>
+        <button type="submit" name="equ_codigo" class="btn btn-success">Modificar</button>
       <a href="{{ url('/ListarEquipos')}}" class="btn btn-secondary" role="button">Volver</a>
       </div>
     </div>

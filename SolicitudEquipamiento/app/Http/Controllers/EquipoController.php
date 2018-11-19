@@ -54,8 +54,8 @@ class EquipoController extends Controller
     }
 
     public function update(Request $request){
-        $equipoU = Equipo::find($request -> equ_codigo);
 
+        $equipoU = Equipo::find($request -> equ_codigo);
         $equipoU -> equ_modelo = $request -> equ_modelo;
         $equipoU -> equ_marca = $request -> equ_marca;
         $equipoU -> equ_numero_serie = $request -> equ_numero_serie;
@@ -64,6 +64,7 @@ class EquipoController extends Controller
         $equipoU -> equ_fecha_adquisicion = $request -> equ_fecha_adquisicion;
         $equipoU -> equ_fecha_ingreso = $request -> equ_fecha_ingreso;
         
+         return view ('/ListarEquipos', ['detalle'=>$Equipo]);
     }
 /*
     public function update($id){
