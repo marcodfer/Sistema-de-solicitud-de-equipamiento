@@ -15,12 +15,12 @@
   </div>
   <div class="card-content table-responsive">
 
-    <form action="{{url('/update/')}}" method="POST">
+    <form action="{{url('/update/'.$detalle->equ_codigo)}}" method="POST">
     {{csrf_field()}}
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
-        <select name="kind_id" disabled="true" class="form-control" required>
+        <select name="tip_nombre" disabled="true" class="form-control" required>
           <option value="{{$detalle -> tip_nombre}}" >{{$detalle -> tip_nombre}}</option>
         </select>
       </div>

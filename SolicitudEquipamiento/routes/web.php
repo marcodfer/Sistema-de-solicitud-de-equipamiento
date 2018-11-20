@@ -28,7 +28,7 @@ Route::post('/ListaSolicitud','SolicitudController@read');
 
 
 
-Route::post('/update/', 'EquipoController@update');
+Route::post('/update/{id}', 'EquipoController@update');
 
 Route::get('/create','EquipoController@vista');
 
@@ -46,6 +46,7 @@ Route::get('/DetalleDeEquipo', 'EquipoController@show');
 
 Route::get('/AgregarEquipo', 'TipoDeEquipoController@read');
 
+Route::get('/login', 'logincontrollerSE@vista');
 
 Route::get('/detalle', 'ticket@detalle');
 

@@ -72,12 +72,11 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-user"></i>
-                   &nbsp;
-                </a>
+                   Salir                </a>
                 <ul class="dropdown-menu">
                   <li><a href="https://umas.ciisa.cl/alumnosnet/alumnos.asp" target="_blank">Portal de Alumnos</a></li>
                   <li class="divider"></li>
-                  <li><a href="logout.php">Salir</a></li>
+                  <li><a href="{{ url('/login')}}">Salir</a></li>
                 </ul>
               </li>
             </ul>

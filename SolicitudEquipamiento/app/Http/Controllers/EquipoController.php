@@ -48,14 +48,18 @@ class EquipoController extends Controller
         $Equipo =  DB::table('sol_equipos')
             ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
-            ->select('sol_equipos.equ_codigo','sol_equipos.equ_modelo','sol_equipos.equ_marca','sol_equipos.equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','sol_equipos.equ_fecha_adquisicion')->where ('sol_equipos.equ_codigo','=',$id)->
-            first();
+            ->select('sol_equipos.equ_codigo','sol_equipos.equ_modelo','sol_equipos.equ_marca','sol_equipos.equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','sol_equipos.equ_fecha_adquisicion')->where ('sol_equipos.equ_codigo','=',$id)
+            ->orderBy('sol_equipos.equ_numero_serie', 'ASC')->paginate(10)
+            ->first();
+            
     return view ('/DetalleDeEquipo', ['detalle'=>$Equipo]);
+
     }
 
-    public function update(Request $request){
-
-        $equipoU = Equipo::find($request -> equ_codigo);
+    public function update(Request $request, $id){
+        
+        $equipoU = DB::table('sol_equipos')->where('equ_codigo', $id)->get(); 
+        //$equipoU = Equipo::find("SELECT * FROM sol_equipo WHERE equ_codigo=$id")->first();
         $equipoU -> equ_modelo = $request -> equ_modelo;
         $equipoU -> equ_marca = $request -> equ_marca;
         $equipoU -> equ_numero_serie = $request -> equ_numero_serie;
@@ -64,7 +68,7 @@ class EquipoController extends Controller
         $equipoU -> equ_fecha_adquisicion = $request -> equ_fecha_adquisicion;
         $equipoU -> equ_fecha_ingreso = $request -> equ_fecha_ingreso;
         
-         return view ('/ListarEquipos', ['detalle'=>$Equipo]);
+         return view ('/DetalleDeEquipo', ['detalle'=>$equipoU]);
     }
 /*
     public function update($id){
