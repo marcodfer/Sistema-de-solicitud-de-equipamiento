@@ -28,7 +28,7 @@ Route::post('/ListaSolicitud','SolicitudController@read');
 
 
 
-Route::post('/update/{id}', 'EquipoController@update');
+Route::post('/update', 'EquipoController@update');
 
 Route::get('/create','EquipoController@vista');
 

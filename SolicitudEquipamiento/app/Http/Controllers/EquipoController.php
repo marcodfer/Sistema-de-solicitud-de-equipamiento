@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Equipo;
 use App\Baja;
 use App\Mantenimiento;
+use App\EliminarEquipo;
 use App\Http\Requests;
 use Carbon\Carbon;
 use DB;
@@ -40,7 +41,7 @@ class EquipoController extends Controller
             ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
             ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','equ_fecha_adquisicion')
-            ->get();
+            ->paginate(10);
     return view ('/ListarEquipos', ['TablaInventario'=>$Equipo]);
     }
 
@@ -48,40 +49,99 @@ class EquipoController extends Controller
         $Equipo =  DB::table('sol_equipos')
             ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
-            ->select('sol_equipos.equ_codigo','sol_equipos.equ_modelo','sol_equipos.equ_marca','sol_equipos.equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','sol_equipos.equ_fecha_adquisicion')->where ('sol_equipos.equ_codigo','=',$id)
-            ->orderBy('sol_equipos.equ_numero_serie', 'ASC')->paginate(10)
+            ->select('sol_equipos.equ_codigo','sol_equipos.equ_modelo','sol_equipos.equ_marca','sol_equipos.equ_numero_serie','sol_estados_equipo.est_nombre','equ_tipo_equipo','sol_tipos_equipo.tip_nombre','sol_equipos.equ_fecha_adquisicion')->where ('sol_equipos.equ_codigo','=',$id)
+            
             ->first();
             
     return view ('/DetalleDeEquipo', ['detalle'=>$Equipo]);
 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request){
         
-        $equipoU = DB::table('sol_equipos')->where('equ_codigo', $id)->get(); 
-        //$equipoU = Equipo::find("SELECT * FROM sol_equipo WHERE equ_codigo=$id")->first();
-        $equipoU -> equ_modelo = $request -> equ_modelo;
-        $equipoU -> equ_marca = $request -> equ_marca;
-        $equipoU -> equ_numero_serie = $request -> equ_numero_serie;
-        $equipoU -> equ_tipo_equipo = $request -> equ_tipo_equipo;
-        $equipoU -> est_codigo = $request -> est_codigo;
-        $equipoU -> equ_fecha_adquisicion = $request -> equ_fecha_adquisicion;
-        $equipoU -> equ_fecha_ingreso = $request -> equ_fecha_ingreso;
+        if ('equ_codigo' != $request -> equ_codigo) {
+
+            $EliminarEquipo = new EliminarEquipo();
+
+                $EliminarEquipo -> equ_fecha = Carbon::now();  
+                $EliminarEquipo -> equ_codigo = $request -> equ_codigox;
+                $EliminarEquipo -> save();
+
+                $Equipo = new Equipo();
+
+                $Equipo -> equ_codigo = $request -> equ_codigo;
+                $Equipo -> equ_modelo = $request -> equ_modelo;
+                $Equipo -> equ_marca = $request -> equ_marca;
+                $Equipo -> equ_numero_serie = $request -> equ_numero_serie;
+                $Equipo -> equ_tipo_equipo = $request -> equ_tipo_equipo; 
+                $Equipo -> est_codigo =  1; 
+                $Equipo -> equ_fecha_adquisicion =$request -> equ_fecha_adquisicion; 
+                $Equipo -> equ_fecha_ingreso = Carbon::now();  
+                $Equipo -> save();
+
+            DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigox)
+            ->delete();
+        }
+
+        DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigo)
+            ->update(['equ_modelo' => $request -> equ_modelo]);
+
+         DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigo)
+            ->update(['equ_marca' => $request -> equ_marca]);
+
+         DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigo)
+            ->update(['equ_numero_serie' => $request -> equ_numero_serie]);
+
+
+        DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigo)
+            ->update(['equ_fecha_adquisicion' => $request -> equ_fecha_adquisicion]);
+
+
+             $check = $request -> get('options');   
+
+             if ($check == 'mantencion') {
+
+                DB::table('sol_equipos')
+                ->where('equ_codigo','=', $request -> equ_codigo)
+                ->update(['est_codigo' => 4]);
+
+                $Mantenimiento = new Mantenimiento();
+                $Mantenimiento -> equ_fecha_inicio = $request -> FInicio;
+                $Mantenimiento -> equ_fecha_fin = $request -> FTermino;
+                $Mantenimiento -> equ_obervacion = $request -> Mtextarea;
+                $Mantenimiento -> equ_codigo = $request -> equ_codigo;
+                $Mantenimiento -> save();
+                }
+            else if ($check == 'baja') {
+                DB::table('sol_equipos')
+                ->where('equ_codigo','=', $request -> equ_codigo)
+                ->update(['est_codigo' => 3]);
+
+                $Baja = new Baja();
+                $Baja -> equ_fecha = Carbon::now(); 
+                $Baja -> equ_fecha_fin = $request -> FTermino;
+                $Baja -> equ_observacion = $request -> Btextarea;
+                $Baja -> equ_codigo = $request -> equ_codigo;
+                $Baja -> save();
+            }
         
-         return view ('/DetalleDeEquipo', ['detalle'=>$equipoU]);
+        $Equipo =  DB::table('sol_equipos')
+            ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
+            ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
+            ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','equ_fecha_adquisicion')
+            ->paginate(10);
+            
+         return view ('/ListarEquipos')
+         ->with('TablaInventario',$Equipo);
+
+        // if (condition) {
+             # code...
+         //}
     }
-/*
-    public function update($id){
-       @switch($k)
-            @case(0)
-                fsdfsdf
-            @breakswitch
-             @case(1)
-                sdfsdf
-            @breakswitch
-            @case(2)
-                sdf
-            @breakswitch
-        @endswitch
-    }*/
+
 }

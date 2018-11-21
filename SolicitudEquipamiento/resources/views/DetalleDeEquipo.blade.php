@@ -15,13 +15,13 @@
   </div>
   <div class="card-content table-responsive">
 
-    <form action="{{url('/update/'.$detalle->equ_codigo)}}" method="POST">
+    <form action="{{url('/update')}}" method="POST">
     {{csrf_field()}}
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
-        <select name="tip_nombre" disabled="true" class="form-control" required>
-          <option value="{{$detalle -> tip_nombre}}" >{{$detalle -> tip_nombre}}</option>
+        <select name="equ_tipo_equipo" id="equ_tipo_equipo" disabled="true" class="form-control">
+          <option value="{{$detalle -> equ_tipo_equipo}}" >{{$detalle -> tip_nombre}}</option>
         </select>
       </div>
     </div>
@@ -29,10 +29,20 @@
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
     </div>
-    <div class="form-group">
-      <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
+    <div class="form-group" style="visibility:hidden">
+      <label for="Codigo" class="col-lg-2 control-label">Codigo Equipo</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_codigo" required class="form-control"   id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"><!-- <a href="{{ url('/Inventario')}}" class="btn btn-success" role="button">Modificar</a>-->
+         <input type="text" name="equ_codigox" required class="form-control"  id="equ_codigox" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"  >
+      </div>
+    </div
+    <div class="form-group">
+      <label for="Codigo" class="col-lg-2 control-label">Codigo Equipo</label>
+      <div class="col-lg-10">
+
+        <input type="text" name="equ_codigo" required class="form-control" disabled="true"  id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}">
+
+
+        <button type="button" class="btn btn-success" onclick="ModCod()">Modificar</button>
       </div>
     </div>
     <div class="form-group">
@@ -62,10 +72,10 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Estado</label>
       <div class="col-lg-10">
-        <input type="text" name="est_codigo" disabled="true" required class="form-control"  id="Estado" placeholder="Estado" value="{{$detalle -> est_nombre}}">
+        <input type="text" name="est_codigo" disabled="true" required class="form-control"  id="est_codigo" placeholder="Estado" value="{{$detalle -> est_nombre}}">
       </div>
     </div>
-    <!--<div  class="form-check">
+    <div  class="form-check">
         <label for="mantencion">
           <input type="checkbox" id="mantencion" name="options" value="mantencion" onclick="ShowMantencion()" class="only-one"> Mantencion
         </label>
@@ -99,6 +109,15 @@
       </div>
 
          <script type="text/javascript">
+
+          function ModCod() {
+          var mensaje = confirm("Esta seguro de modificar Codigo?");
+          if (mensaje) {
+              var Codigo = document.getElementById ( "Codigo" );
+              var equ_codigo = document.getElementById('equ_codigo');
+              equ_codigo.disabled=false;
+          } 
+          }
 
           var mantencion = document.getElementById ( "mantencion" );
           var baja = document.getElementById ( "baja" );
@@ -148,11 +167,10 @@
 
 
         </script> 
-        
-    </div>-->
+    </div>
     <div class="form-group">
       <div class="col-lg-10">
-        <button type="submit" name="equ_codigo" class="btn btn-success">Modificar</button>
+        <button type="submit" class="btn btn-success">Modificar</button>
       <a href="{{ url('/ListarEquipos')}}" class="btn btn-secondary" role="button">Volver</a>
       </div>
     </div>

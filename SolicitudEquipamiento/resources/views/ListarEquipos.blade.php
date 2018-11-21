@@ -51,6 +51,7 @@ $(document).ready(function(){
 	</tbody>
   </form>
 	</table></div>
+ <center>{!! $TablaInventario->render() !!}</center> 
 	</div>
       </div>
       </div>
