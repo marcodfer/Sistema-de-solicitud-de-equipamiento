@@ -57,8 +57,7 @@
       <label for="inputEmail1" class="col-lg-2 control-label">Fecha de adquisicion</label>
       <div class="col-lg-10">
         <input type="date" name="equ_fecha_adquisicion" required class="form-control" id="inputNombre" placeholder="Fecha de adquisicion del equipo">
-      </div>
-      
+      </div>  
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label"  style="visibility:hidden" >Estado</label>
       <div class="col-lg-10">

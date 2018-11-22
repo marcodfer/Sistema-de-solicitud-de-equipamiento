@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Equipo;
 use App\Baja;
 use App\Mantenimiento;
-use App\EliminarEquipo;
 use App\Http\Requests;
+use App\EliminarEquipo;
 use Carbon\Carbon;
 use DB;
 
@@ -20,7 +20,6 @@ class EquipoController extends Controller
     public function create(Request $request){
     		$Equipo = new Equipo();
 
-//Sale Function name must be a string
 
     		$Equipo -> equ_codigo = $request -> equ_codigo;
     		$Equipo -> equ_modelo = $request -> equ_modelo;
@@ -55,35 +54,11 @@ class EquipoController extends Controller
             
     return view ('/DetalleDeEquipo', ['detalle'=>$Equipo]);
 
+
     }
 
     public function update(Request $request){
         
-        if ('equ_codigo' != $request -> equ_codigo) {
-
-            $EliminarEquipo = new EliminarEquipo();
-
-                $EliminarEquipo -> equ_fecha = Carbon::now();  
-                $EliminarEquipo -> equ_codigo = $request -> equ_codigox;
-                $EliminarEquipo -> save();
-
-                $Equipo = new Equipo();
-
-                $Equipo -> equ_codigo = $request -> equ_codigo;
-                $Equipo -> equ_modelo = $request -> equ_modelo;
-                $Equipo -> equ_marca = $request -> equ_marca;
-                $Equipo -> equ_numero_serie = $request -> equ_numero_serie;
-                $Equipo -> equ_tipo_equipo = $request -> equ_tipo_equipo; 
-                $Equipo -> est_codigo =  1; 
-                $Equipo -> equ_fecha_adquisicion =$request -> equ_fecha_adquisicion; 
-                $Equipo -> equ_fecha_ingreso = Carbon::now();  
-                $Equipo -> save();
-
-            DB::table('sol_equipos')
-            ->where('equ_codigo','=', $request -> equ_codigox)
-            ->delete();
-        }
-
         DB::table('sol_equipos')
             ->where('equ_codigo','=', $request -> equ_codigo)
             ->update(['equ_modelo' => $request -> equ_modelo]);
@@ -96,11 +71,9 @@ class EquipoController extends Controller
             ->where('equ_codigo','=', $request -> equ_codigo)
             ->update(['equ_numero_serie' => $request -> equ_numero_serie]);
 
-
         DB::table('sol_equipos')
             ->where('equ_codigo','=', $request -> equ_codigo)
             ->update(['equ_fecha_adquisicion' => $request -> equ_fecha_adquisicion]);
-
 
              $check = $request -> get('options');   
 
@@ -124,7 +97,6 @@ class EquipoController extends Controller
 
                 $Baja = new Baja();
                 $Baja -> equ_fecha = Carbon::now(); 
-                $Baja -> equ_fecha_fin = $request -> FTermino;
                 $Baja -> equ_observacion = $request -> Btextarea;
                 $Baja -> equ_codigo = $request -> equ_codigo;
                 $Baja -> save();
@@ -143,5 +115,25 @@ class EquipoController extends Controller
              # code...
          //}
     }
+
+     public function delete(Request $request){
+
+             $EliminarEquipo = new EliminarEquipo();
+
+                $EliminarEquipo -> equ_codigo = $request -> equ_codigo;
+                $EliminarEquipo -> equ_modelo = $request -> equ_modelo;
+                $EliminarEquipo -> equ_marca = $request -> equ_marca;
+                $EliminarEquipo -> equ_numero_serie = $request -> equ_numero_serie;
+                $EliminarEquipo -> equ_tipo_equipo = $request -> equ_tipo_equipo; 
+                $EliminarEquipo -> equ_fecha_adquisicion =$request -> equ_fecha_adquisicion; 
+                $EliminarEquipo -> equ_fecha_ingreso = Carbon::now();  
+                $EliminarEquipo -> save();
+
+            DB::table('sol_equipos')
+            ->where('equ_codigo','=', $request -> equ_codigo)
+            ->delete();
+
+           return redirect('/ListarEquipos');
+}
 
 }

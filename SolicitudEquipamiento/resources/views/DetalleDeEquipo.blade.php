@@ -20,8 +20,8 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
-        <select name="equ_tipo_equipo" id="equ_tipo_equipo" disabled="true" class="form-control">
-          <option value="{{$detalle -> equ_tipo_equipo}}" >{{$detalle -> tip_nombre}}</option>
+        <select name="tip_nombres"  readonly="true" class="form-control" required>
+          <option value="{{$detalle -> equ_tipo_equipo}}">{{$detalle -> tip_nombre}}</option>
         </select>
       </div>
     </div>
@@ -29,20 +29,10 @@
     <div class="form-group">
       <center><label>Datos del equipo</label></center>
     </div>
-    <div class="form-group" style="visibility:hidden">
-      <label for="Codigo" class="col-lg-2 control-label">Codigo Equipo</label>
-      <div class="col-lg-10">
-         <input type="text" name="equ_codigox" required class="form-control"  id="equ_codigox" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"  >
-      </div>
-    </div
     <div class="form-group">
-      <label for="Codigo" class="col-lg-2 control-label">Codigo Equipo</label>
+      <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
       <div class="col-lg-10">
-
-        <input type="text" name="equ_codigo" required class="form-control" disabled="true"  id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}">
-
-
-        <button type="button" class="btn btn-success" onclick="ModCod()">Modificar</button>
+        <input type="text" name="equ_codigo" required class="form-control" readonly="true"  id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"> 
       </div>
     </div>
     <div class="form-group">
@@ -110,14 +100,7 @@
 
          <script type="text/javascript">
 
-          function ModCod() {
-          var mensaje = confirm("Esta seguro de modificar Codigo?");
-          if (mensaje) {
-              var Codigo = document.getElementById ( "Codigo" );
-              var equ_codigo = document.getElementById('equ_codigo');
-              equ_codigo.disabled=false;
-          } 
-          }
+
 
           var mantencion = document.getElementById ( "mantencion" );
           var baja = document.getElementById ( "baja" );
@@ -128,6 +111,13 @@
           var ftermino = document.getElementById('FTermino');
           var mtextarea = document.getElementById('Mtextarea');
           var btextarea = document.getElementById('Btextarea');
+
+          function Eliminar() {
+            var mensaje = confirm("¿Esta seguro de Eliminar Equipo?");
+              if (mensaje) {
+               window.location="{{URL::to('/delete')}}"; 
+             } 
+          }
 
           function ShowMantencion() {
           if(mantencion.checked){
@@ -146,6 +136,7 @@
               ftermino.required = false;
               mtextarea.required = false;
               btextarea.required = false;
+              // <button type="button" class="btn btn-danger"onclick="Eliminar()" >Eliminar</button>
             }
           }
           function ShowDarDeBaja() {
@@ -172,6 +163,8 @@
       <div class="col-lg-10">
         <button type="submit" class="btn btn-success">Modificar</button>
       <a href="{{ url('/ListarEquipos')}}" class="btn btn-secondary" role="button">Volver</a>
+     <a href="{{ url('/delete')}}" class="btn btn-danger" role="button">Eliminar</a>
+      
       </div>
     </div>
 

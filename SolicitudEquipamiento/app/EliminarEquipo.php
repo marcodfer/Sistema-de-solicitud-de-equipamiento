@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class EliminarEquipo extends Model
 {
-    protected $table = 'sol_equipo_eliminar';
+    protected $table = 'sol_equipo_eliminado';
     public $timestamps = false;
 }

@@ -26,7 +26,7 @@ Route::post('/ListaSolicitud','SolicitudController@read');
 
 
 
-
+Route::get('/delete', 'EquipoController@delete');
 
 Route::post('/update', 'EquipoController@update');
 
