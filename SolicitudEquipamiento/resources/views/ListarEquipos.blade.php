@@ -19,39 +19,19 @@
     <div class="col-lg-3">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
-      <input type="text" name="TBuscar" id="TBuscar" class="form-control" placeholder="Palabra clave">
+      <input type="text" name="TBuscar" id="myInput" class="form-control" placeholder="Palabra clave">
     </div>
     </div>
-
-    <div class="col-lg-4">
-    <div class="input-group">
-      <span class="input-group-addon"><i class="fa fa-th-list"></i></span>
-<select name="project_id" class="form-control">
-<option value="0">Escoja una opcion</option>
-@foreach($tipoequipo as $tipequipo)
-<option value="{{ $tipequipo -> tip_id }}">{{ $tipequipo -> tip_nombre }}</option>
-  @endforeach
-</select>
-    </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      <input type="date" name="date_at" class="form-control">
-    </div>
-    </div>
-
-    <div class="col-lg-2">
-      <a href="{{url('/Filtrar')}}"><input class="btn btn-success" name="Buscar" type="submit"  value="Buscar"></a>
-    </form>
-    </div>
-	</div>
+</div>
  @foreach (['danger', 'warning', 'success', 'info'] as $msg) @if(Session::has('alert-' . $msg)) 
-<div class=" alert-success" style="color: green">Se han guardado datos con exito!!!!!!</div>
+<div class="success" role="alert">
+  <strong>Se han guardado datos con exito</strong> 
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+</div>
  @endif @endforeach 
   <form action="/show" method="POST">
     <br>
-	<div class="datagrid"><table>
+	<div class="datagrid"><table id="Busqueda">
   
         
 		<thead><th>Codigo</th>
@@ -62,7 +42,7 @@
 		<th>Modelo</th>
 		<th>Estado</th> 
 		<th>Ver detalle</th></thead>
-          <tbody class="contenidobusqueda">
+          <tbody id="myTable" >
          @foreach($TablaInventario as $DatoEquipo)
           <tr><td>{{$DatoEquipo -> equ_codigo}}</td><td>{{$DatoEquipo -> equ_fecha_adquisicion}}</td><td>{{ $DatoEquipo -> tip_nombre}}</td><td>{{$DatoEquipo -> equ_numero_serie}}</td><td>{{$DatoEquipo -> equ_marca}}</td><td>{{$DatoEquipo -> equ_modelo}}</td><td>{{ $DatoEquipo-> est_nombre}}</td><td><a href="{{url('/DetalleDeEquipo/'.$DatoEquipo->equ_codigo)}}"><input type="button" id="detalle" value="..."></a></td></tr>
           @endforeach
@@ -72,7 +52,36 @@
 	<center>{!! $TablaInventario->links() !!}</center>
 
   <script type="text/javascript">
- 
+
+/*$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});*/
+
+
+ function fetch_customer_data(query = '')
+ {
+  $.ajax({
+   url:'{{ route("Filtrar.filtrar-equipo") }}',
+   method:'GET',
+   data:{query:query},
+   dataType:'json',
+   success:function(data)
+   {
+    $('tbody').html(data);
+   }
+  })
+ }
+//text  compararlo con el input cantidad 
+ $(document).on('keyup', '#myInput', function(){
+  var query = $(this).val();
+  fetch_customer_data(query);
+ });
         </script> 
 
 	</div>

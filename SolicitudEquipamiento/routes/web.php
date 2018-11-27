@@ -21,7 +21,7 @@ Route::get('solicitud/{id}', 'SolicitudController@select');
 
 Route::post('/Solicitud', 'SolicitudController@generar')->name('generar');
 
-
+Route::get('/ListarEquipos', 'EquipoController@FiltrarEquipo')->name('Filtrar.filtrar-equipo');
 
 Route::get('/Solicitud/buscar-equipo', 'SolicitudController@buscarEquipo')->name('Solicitud.buscar-equipo');
 

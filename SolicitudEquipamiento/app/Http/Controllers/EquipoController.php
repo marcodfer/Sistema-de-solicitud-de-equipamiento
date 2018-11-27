@@ -16,6 +16,7 @@ class EquipoController extends Controller
         return view('AgregarEquipo');
     }
     public function create(Request $request){
+        try {
             $Equipo = new Equipo();
             $Equipo -> equ_codigo = $request -> equ_codigo;
             $Equipo -> equ_modelo = $request -> equ_modelo;
@@ -26,10 +27,21 @@ class EquipoController extends Controller
             $Equipo -> equ_fecha_adquisicion =$request -> equ_fecha_adquisicion; 
             $Equipo -> equ_fecha_ingreso = Carbon::now();  
             $Equipo -> save();
+            $request->session()->flash('alert-success', 'Se agrego equipo con exito');
             return redirect('/ListarEquipos');
+        } catch (Exception $e) {
+            $request->session()->flash('alert-danger', 'No se puedo agregar equipo');
+            return redirect('/ListarEquipos');
+        }
+            
     }
     public function read(Request $request){
- 
+         try {
+            
+        } catch (Exception $e) {
+            $request->session()->flash('alert-danger', 'No se puedo agregar equipo');
+            return redirect('/ListarEquipos');
+        }
             $tipoequipo =  TipoDeEquipo::all();
 
             $Equipo =  DB::table('sol_equipos')
@@ -114,6 +126,57 @@ class EquipoController extends Controller
         ->with('estado', $estado);
 
     }
+
+
+   public function FiltrarEquipo(Request $request){
+
+        //metodo text
+        $output='';
+
+        $query = $request -> get('query');
+        $query1 = $request -> get('query1');
+
+        if ($query != "") {
+            $data = DB::table('sol_equipos')
+                ->where('equ_tipo_equipo','=')
+                ->where('est_codigo','=',1)
+                ->limit($query)
+                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
+                ->get();
+        }else if($query != ""){
+            $data = DB::table('sol_equipos')
+                ->where('est_codigo','=',1)
+                ->limit($query)
+                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
+                ->get();
+        }else if($query1 != ""){
+            $data = DB::table('sol_equipos')
+                ->where('equ_tipo_equipo','=')
+                ->where('est_codigo','=',1)
+                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
+                ->get();
+        }else{
+            echo json_encode($output);
+        }
+
+        $total_row = $data->count();
+
+        if ($total_row > 0) {
+            foreach ($data as $row) {
+                $output.='<tr><td>'.$row->equ_codigo.'</td><td>'.$row->equ_modelo.'</td><td>'.$row->equ_marca.'</td><td>'.$row->equ_numero_serie.'</td></tr>';
+            }
+        }else{
+            $output = '
+            <tr>
+                <td align="center" colspan="5">No quedan equipos disponibles</td>
+            </tr>
+            ';
+        }
+//fin metodo text
+        echo json_encode($output);
+    
+    }
+
     public function update(Request $request){
 
 
