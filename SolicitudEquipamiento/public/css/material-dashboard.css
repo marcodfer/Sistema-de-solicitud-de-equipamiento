@@ -3737,9 +3737,9 @@ footer .btn {
 }
 .card-stats .card-header i {
   font-size: 36px;
-  line-height: 56px;
-  width: 56px;
-  height: 56px;
+  line-height: 15px;
+  width: 15px;
+  height: 15px;
 }
 .card-stats .card-content {
   text-align: right;

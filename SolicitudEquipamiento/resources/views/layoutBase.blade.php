@@ -3,21 +3,20 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="_token" content="{{ csrf_token() }}">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
   <title>@yield('titulo')</title>
-
-  
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
   <meta name="viewport" content="width=device-width" />
   <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet" />
   <link href="{{asset('css/estilos.css')}}" rel="stylesheet" />
   <link href="{{asset('css/material-dashboard.css')}}" rel="stylesheet"/>
-  <link href="{{asset('font-awesome/css/font-awesome.min.csss')}}" rel="stylesheet">
+  <link href="{{asset('font-awesome/css/font-awesome.min.csss')}}" rel="stylesheet"> 
   <script src="js/jquery.min.js" type="text/javascript"></script>
   <link href="{{asset('fullcalendar/fullcalendar.min.css')}}" rel='stylesheet' />
-  <link href="{{asset('fullcalendar/fullcalendar.print.css')}}" media='print' />
-  <script src='fullcalendar/moment.min.js'></script>
-  <script src='fullcalendar/fullcalendar.min.js'></script>
+  <link href="{{asset('fullcalendar/fullcalendar.print.css')}}" rel='stylesheet' media='print' />
 
 
 </head>
@@ -35,13 +34,13 @@
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="">
-            <a href="{{ url('/layoutAdm')}}">
+            <a href="{{ url('/Solicitud')}}">
               <i class="fa fa-home"></i>
               <p>Inicio</p>
             </a>
           </li>
           <li>
-            <a href="{{ url('/ListaSolicitud')}}">
+            <a href="{{ url('/ListaSolicitudes')}}">
               <i class="fa fa-file-text-o"></i>
               <p>Solicitudes</p>  
             </a>
@@ -59,7 +58,7 @@
               <p>Agregar Equipo</p>
             </a>
           </li>
-        <?php } ?>
+       <?php } ?>
         </ul>
       </div>
     </div>
@@ -72,11 +71,12 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-user"></i>
-                   {{$usuarios[0]->usu_nombre}}                </a>
+                  {{$usuarios[0]->usu_nombre}}                </a>  
+                </a>
                 <ul class="dropdown-menu">
                   <li><a href="https://umas.ciisa.cl/alumnosnet/alumnos.asp" target="_blank">Portal de Alumnos</a></li>
                   <li class="divider"></li>
-                  <li><a href="{{ url('/login')}}">Salir</a></li>
+                  <li><a href="logout.php">Salir</a></li>
                 </ul>
               </li>
             </ul>
@@ -100,9 +100,8 @@
 
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
   <script src="js/material.min.js" type="text/javascript"></script>
-  <script src="js/chartist.min.js"></script>
   <script src="js/bootstrap-notify.js"></script>
-  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js"></script>
+  <script src="js/chartist.min.js"></script>
   <script src="js/material-dashboard.js"></script>
   <script src="js/demo.js"></script>
 

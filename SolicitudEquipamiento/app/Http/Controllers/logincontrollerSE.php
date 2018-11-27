@@ -13,8 +13,4 @@ class logincontrollerSE extends Controller
     public function layoutAdm(Request $Request){
     	return view('layoutAdm');
     }
-
-    public function vista(){
-    	return view('welcome');
-    }
 }

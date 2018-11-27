@@ -15,20 +15,21 @@ Route::get('/', 'UsuarioController@vista');
 
 Route::post('IniciarSesion', 'UsuarioController@iniciar');
 
-Route::get('/Solicitud', 'SolicitudController@generar')->name('Solicitud');
+Route::get('/Solicitud', 'SolicitudController@mostrar')->name('Solicitud');
+
+Route::get('solicitud/{id}', 'SolicitudController@select');
 
 Route::post('/Solicitud', 'SolicitudController@generar')->name('generar');
 
-Route::get('/ListaSolicitud','SolicitudController@read');
-
-Route::post('/ListaSolicitud','SolicitudController@read');
 
 
+Route::get('/Solicitud/buscar-equipo', 'SolicitudController@buscarEquipo')->name('Solicitud.buscar-equipo');
 
+Route::get('/Filtrar', 'EquipoController@Filtrar');
 
-Route::get('/delete', 'EquipoController@delete');
+Route::get('ListaSolicitudes', 'SolicitudController@listarSolicitud');
 
-Route::post('/update', 'EquipoController@update');
+Route::post('/ListaSolicitud','SolicitudController@filtrarSolicitud')->name('Buscar');
 
 Route::get('/create','EquipoController@vista');
 
@@ -46,8 +47,12 @@ Route::get('/DetalleDeEquipo', 'EquipoController@show');
 
 Route::get('/AgregarEquipo', 'TipoDeEquipoController@read');
 
-Route::get('/login', 'logincontrollerSE@vista');
 
 Route::get('/detalle', 'ticket@detalle');
 
 Route::get('/detalle-soporte', 'ticketSoporte@detalleS');
+
+
+Route::get('/delete', 'EquipoController@delete');
+
+Route::any('/update', 'EquipoController@update');

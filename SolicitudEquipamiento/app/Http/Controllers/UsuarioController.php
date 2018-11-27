@@ -34,7 +34,7 @@ class UsuarioController extends Controller
 		$usuario = DB::table('sol_usuarios')
 			->join('sol_tipos_usuario','sol_tipos_usuario.tip_codigo','=','sol_usuarios.tip_codigo')
 			->where('usu_rut','=',$request -> usu_rut)
-			->select('usu_rut','usu_nombre','sol_tipos_usuario.tip_nombre')
+			->select('usu_rut','usu_nombre','sol_tipos_usuario.tip_nombre','sol_usuarios.tip_codigo')
 			->get();
 		Session::put('miSesion', $usuario);
     	return redirect()->route('Solicitud');

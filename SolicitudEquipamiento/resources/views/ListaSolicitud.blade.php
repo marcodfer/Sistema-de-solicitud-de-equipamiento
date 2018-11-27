@@ -15,61 +15,78 @@
   </div>
   <div class="card-content table-responsive">
 <form action="ListaSolicitud" method="POST" class="form-horizontal" role="form">
-
+{{csrf_field()}}
   <div class="form-group">
     <div class="col-lg-3">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
-      <input type="text" name="q" class="form-control" placeholder="Palabra clave">
+      <input type="number" name="qTicket" class="form-control" placeholder="Codigo Ticket" required>
+    </div>
+    </div><?php $usuarios = json_decode(Session::get('miSesion')) ?>
+
+    <div class="col-lg-3">
+    <div class="input-group">
+      <span class="input-group-addon"><i class="fa fa-search"></i></span>
+      <input type="text" name="bRut"<?php if($usuarios[0]->tip_nombre != 'Soporte'){ ?> readonly value="{{$usuarios[0]->usu_rut}}"  <?php  } ?>  class="form-control" placeholder="Rut Solicitante" >
     </div>
     </div>
-    <div class="col-lg-4">
+    
+
+    <div class="col-lg-3">
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-th-list"></i></span>
-<select name="project_id" class="form-control">
-<option value="">Equipo de Redes y Telecomunicación</option>
-<option value="">Equipo Portátil</option>
-    <option value=""></option>
-</select>
-    </div>
-    </div>
-    <div class="col-lg-2">
-    <div class="input-group">
-      <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-      <input type="date" name="date_at" class="form-control" placeholder="Palabra clave">
+
+      <select name="bEstSolicitud" class="form-control" >
+        <option value="" > Estado Solicitud </option>
+        @foreach($EstSolicitudes as $EstSolicitud)
+        <option value="{{ $EstSolicitud -> est_codigo }}"> {{ $EstSolicitud -> est_nombre }} </option>
+        @endforeach 
+      </select>
+
     </div>
     </div>
 
     <div class="col-lg-2">
-    <input type="button" id="buscar" value="Buscar">
+    <button type="submit" name="Buscar" value="Buscar" class="btn btn-default">Buscar</button>
     </div>
 	</div>
 	<div class="datagrid"><table>
-		<thead><th>Fecha solicitud</th>
-		<th>Fecha retiro</th>
-		<th>Ticket</th>
-		<th>Rut Solicitante</th>
-		<th>Sala</th>  
+		<thead><th>Codigo</th>
+		<th>Titulo</th>
+		<th>Fecha de Entrega</th>
+		<th>Rut del Solicitante</th>
+		<th>Estado</th>  
+    <th>Sala</th> 
 		<th>Ver detalle</th></thead>
 
 		
 		<tbody>
 		@foreach($ListaS as $listaS)
 		<tr>
-			<td>{{ $listaS -> sol_fecha_creacion }}</td>
+      <td>{{ $listaS -> sol_codigo }}</td>
+			<td>{{ $listaS -> sol_titulo }}</td>
 			<td>{{ $listaS -> sol_fecha_entrega }}</td>
-			<td>{{ $listaS -> sol_codigo }}</td>
 			<td>{{ $listaS -> usu_rut }}</td>
+      <td>{{ $listaS -> est_nombre }}
 			<td>{{ $listaS -> sal_codigo }}</td>
 			<td><a href="{{ url('/detalle-soporte')}}"><input type="button" id="detalle" value="..." ></a></td>
 		</tr>
 		@endforeach
 	</tbody>
-	</table></div>
+	</table>
+</div>
+<center>{!! $ListaS->render() !!}</center>
+  @if(count($ListaS) == 0 )
+
+  <h4 align="center"> Busqueda Sin Resultados </h4>
+
+  @endif
 </form>
   	</div>
 	
       </div>
       </div>
+
+
 
 @stop
