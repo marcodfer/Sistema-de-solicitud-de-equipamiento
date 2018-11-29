@@ -32,25 +32,25 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Numero asignado al equipo</label>
       <div class="col-lg-10">
-        <input type="text" pattern="[a-z]" name="equ_codigo" maxlength="20"  required class="form-control" id="inputNombre" placeholder="Codigo unico del equipo">
+        <input type="text"   name="equ_codigo" maxlength="30" pattern="[A-Za-z0-9]{6,30}"  required class="form-control" id="inputNombre" placeholder="Codigo unico del equipo">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Marca</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_marca" maxlength="20"  required class="form-control" id="inputModelo" placeholder="Marca del equipo">
+        <input type="text" name="equ_marca" maxlength="30" pattern="[A-Za-z]{1,30}" required class="form-control" id="inputModelo" placeholder="Marca del equipo">
       </div>
     </div>
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Modelo</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_modelo" maxlength="20"  required class="form-control" id="inputModelo" placeholder="Modelo del equipo">
+        <input type="text" name="equ_modelo" maxlength="30" pattern="[A-Za-z0-9]{6,30}" required class="form-control" id="inputModelo" placeholder="Modelo del equipo">
       </div>
-    </div>
+    </div> 
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Numero de serie</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_numero_serie" maxlength="20"   required class="form-control" id="inputNumeroSerie" placeholder="Numero de serie del equipo">
+        <input type="text" name="equ_numero_serie" maxlength="30" pattern="[A-Za-z0-9]{6,30}" required class="form-control" id="inputNumeroSerie" placeholder="Numero de serie del equipo">
       </div>
     </div>
     <div class="form-group">

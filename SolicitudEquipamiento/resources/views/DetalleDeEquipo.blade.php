@@ -11,7 +11,7 @@
             <div class="col-md-12">
 <div class="card">
   <div class="card-header" data-background-color="green">
-      <h4 class="title">Equipo</h4>
+      <h4 class="title" >Equipo {{$detalle -> equ_codigo}}</h4>
   </div>
   <div class="card-content table-responsive">
 
@@ -21,37 +21,41 @@
     <div class="form-group">
       <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
       <div class="col-lg-10">
-        <select name="tip_nombres"  readonly="true" class="form-control" required>
-          <option value="{{$detalle -> equ_tipo_equipo}}">{{$detalle -> tip_nombre}}</option>
+      <input type="text" name="tip_nombre" required class="form-control" readonly="true"  id="tip_nombre" placeholder="Tipo de equipo" value="{{$detalle -> tip_nombre}}"> 
+      </div>
+    </div>
+    <div class="form-group" hidden="true">
+      <label for="inputEmail1" class="col-lg-2 control-label">Tipo</label>
+      <div class="col-lg-10">
+        <select name="tip_nombres" hidden="true" readonly="true" class="form-control" required>
+          <option value="{{$detalle -> equ_tipo_equipo}}" hidden="">{{$detalle -> tip_nombre}}</option>
         </select>
       </div>
     </div>
     <br><br>
-    <div class="form-group">
-      <center><label>Datos del equipo</label></center>
-    </div>
-    <div class="form-group">
-      <label for="inputEmail1" class="col-lg-2 control-label">Codigo Equipo</label>
+   
+    <div class="form-group" hidden="true">
+      <label for="inputEmail1" class="col-lg-2 control-label" hidden="true">Codigo Equipo</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_codigo" maxlength="15" required class="form-control" readonly="true"  id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"> 
+        <input type="text" name="equ_codigo" maxlength="15"  pattern="[A-Za-z0-9]" required class="form-control" readonly="true"  id="equ_codigo" placeholder="Codigo del equipo" value="{{$detalle -> equ_codigo}}"> 
       </div>
     </div>
     <div class="form-group" >
       <label for="inputEmail1" class="col-lg-2 control-label">Marca</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_marca" maxlength="15" <?php if($detalle -> est_codigo== 2 ||  $detalle -> est_codigo== 3) {  ?> readonly="true" <?php } ?> required class="form-control"  id="equ_marca" placeholder="Marca del equipo" value="{{$detalle -> equ_marca}}">
+        <input type="text" name="equ_marca"  maxlength="30" <?php if($detalle -> est_codigo== 2 ||  $detalle -> est_codigo== 3) {  ?> readonly="true" <?php } ?> required class="form-control"  id="equ_marca" placeholder="Marca del equipo" pattern="[A-Za-z0-9]{6,30}"   value="{{$detalle -> equ_marca}}">
       </div>
     </div>
     <div class="form-group" >
       <label for="inputEmail1" class="col-lg-2 control-label">Modelo</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_modelo" <?php if($detalle -> est_codigo== 2 || $detalle -> est_codigo== 3){  ?> readonly="true" <?php } ?>  required class="form-control"   id="equ_modelo" placeholder="Modelo del equipo" value="{{$detalle -> equ_modelo}}">
+        <input type="text" name="equ_modelo" <?php if($detalle -> est_codigo== 2 || $detalle -> est_codigo== 3){  ?> readonly="true" <?php } ?> maxlength="30" pattern="[A-Za-z0-9]{6,30}"   required class="form-control"   id="equ_modelo" placeholder="Modelo del equipo" value="{{$detalle -> equ_modelo}}">
       </div>
     </div>
     <div class="form-group" >
       <label for="inputEmail1" class="col-lg-2 control-label">Numero de serie</label>
       <div class="col-lg-10">
-        <input type="text" name="equ_numero_serie" <?php if($detalle -> est_codigo== 2 || $detalle -> est_codigo== 3){  ?> readonly="true" <?php } ?> required class="form-control"  id="equ_numero_serie" placeholder="Numero de serie del equipo" value="{{$detalle -> equ_numero_serie}}">
+        <input type="text" name="equ_numero_serie" <?php if($detalle -> est_codigo== 2 || $detalle -> est_codigo== 3){  ?> readonly="true" <?php } ?> required class="form-control"  pattern="[A-Za-z0-9]{6,30}" id="equ_numero_serie" maxlength="30" placeholder="Numero de serie del equipo" value="{{$detalle -> equ_numero_serie}}">
       </div>
     </div>
     <div class="form-group" >
@@ -80,17 +84,17 @@
 <div class="form-group"  <?php if($detalle -> est_codigo== 4){  ?>style="display: block" <?php } ?>   id = "fMantencion" style="display: none" >
           <label for="fechaInicio" class="col-lg-2 control-label">Fecha de Inicio</label>
             <div class="col-lg-10">
-             <input type="date" name="FInicio"   class="form-control" <?php if($detalle -> est_codigo== 4){  ?> value="{{$detalle -> equ_fecha_inicio}}" readonly="true" <?php  } ?>  id="FInicio" placeholder="Fecha de inicio mantencion" value="">
+             <input type="date" name="FInicio"   class="form-control" <?php if($detalle -> est_codigo== 4){  ?> value="{{$detalle -> equ_fecha_inicio}}" readonly="true" <?php  } ?>  id="FInicio" placeholder="Fecha de inicio mantencion" onclick="boton()" value="">
             </div>
 
             <label for="fechaTermino" class="col-lg-2 control-label">Fecha de Termino</label>
             <div class="col-lg-10">
-             <input type="date" name="FTermino" <?php if($detalle -> est_codigo== 4){  ?> value="{{$detalle -> equ_fecha_fin}}" readonly="true" <?php  } ?>  class="form-control"  id="FTermino" placeholder="Fecha de termino mantencion" >
+             <input type="date"  name="FTermino" <?php if($detalle -> est_codigo== 4){  ?> value="{{$detalle -> equ_fecha_fin}}" readonly="true" <?php  } ?>  class="form-control"  id="FTermino"  placeholder="Fecha de termino mantencion" >
             </div>
 
             <label for="Comentario" class="col-lg-2 control-label">Comentario</label>
             <div class="col-lg-10" >
-             <textarea class="form-control z-depth-1" <?php if($detalle -> est_codigo== 4){  ?> readonly="true"  <?php } ?>  id="Mtextarea" name="Mtextarea" placeholder="Agregue un Comentario"  rows="3" cols="10"><?php if($detalle -> est_codigo == 4){  ?>{{$detalle -> equ_observacion}}  <?php } ?></textarea>
+             <textarea class="form-control z-depth-1" <?php if($detalle -> est_codigo== 4){  ?> readonly="true"  <?php } ?> pattern="[A-Za-z0-9]{6,30}"  id="Mtextarea" name="Mtextarea" placeholder="Agregue un Comentario" maxlength="500" rows="3" cols="10"><?php if($detalle -> est_codigo == 4){  ?>{{$detalle -> equ_observacion}}  <?php } ?></textarea>
             </div>
       </div>
 
@@ -98,17 +102,17 @@
           
             <label for="Comentario" class="col-lg-2 control-label">Comentario</label>
             <div class="col-lg-10" >
-             <textarea class="form-control z-depth-1"  <?php if($detalle -> est_codigo== 3){  ?> readonly="true"  <?php } ?>  id="Btextarea" name="Btextarea" placeholder="Agregue un Comentario"  rows="3" cols="10"><?php if($detalle -> est_codigo== 3){  ?>{{$detalle -> equ_observacion}}  <?php } ?></textarea>
+             <textarea class="form-control z-depth-1" <?php if($detalle -> est_codigo== 3){  ?> readonly="true"  <?php } ?>  id="Btextarea" name="Btextarea" placeholder="Agregue un Comentario"  rows="3" pattern="[A-Za-z0-9]{6,30}" maxlength="500" cols="10"><?php if($detalle -> est_codigo== 3){  ?>{{$detalle -> equ_observacion}}  <?php } ?></textarea>
 
            </div>
-
-             <div <?php if($detalle -> est_codigo != 3){  ?> style="display: none" <?php } ?>>
+             <div <?php if($detalle -> est_codigo != 3){  ?>  style="display: none" <?php } ?>>
              <label for="fechaIngresoB" <?php if($detalle -> est_codigo != 3){  ?> style="display: none" <?php  } ?>  class="col-lg-2 control-label">Fecha de baja
               </label>
               <div class="col-lg-10" >
              <input type="text" name="FingresoB"  class="form-control"  id="FingresoB"  <?php if($detalle -> est_codigo== 3){  ?> value="{{$detalle -> equ_fecha}}" readonly="true" <?php  } ?> >
             </div>
             </div>
+
       </div>
       <script type="text/javascript">
       $(document).ready(function(){
@@ -132,7 +136,7 @@
               finicio.required = true;
               ftermino.required = true;
               mtextarea.required = true;
-              baja.checked = false;
+              baja.checked = false;               
             }  
 
 
@@ -165,9 +169,25 @@
               btextarea.required = false;
             }
 
-      //<button type="submit" name="mod" value="Eliminar" class="btn btn-danger">Eliminar</button>
 
-     });
+              });
+      });
+
+      $(document).ready(function () {
+        $('#mensaje_error').hide();  
+      });
+
+      $("#FTermino").keyup(function () {
+        var cont = $('#FInicio').val();
+        var cont2 = $('#FTermino').val();
+        document.getElementById('FInicio');
+          var ftermino = document.getElementById('FTermino');
+        if (cont > cont2) {
+        alert("Fecha de inicio no debe ser menor que fecha de termino");
+    } else {
+        $('#mensaje_error').show();
+    }
+
       });
         </script> 
     </div>

@@ -23,28 +23,20 @@
     <form action="IniciarSesion" method="POST">
         {{csrf_field()}}
         <div class="form-group {{ $errors->has('usu_rut') ? 'has-error' : '' }}">
-            <input type="text" class="form-control" name="usu_rut" placeholder="Rut" value="{{ old('usu_rut') }}">
-            {!! $errors->first('usu_rut', '<span class="help-block">:message</span>>') !!}
+            <input type="text" class="form-control" name="usu_rut" placeholder="Rut" value="{{ old('usu_rut') }}" pattern="[0-9]{7,8}-[0-9Kk]{1}" >
+            {!! $errors->first('usu_rut', '<span class="help-block">:message</span>') !!}
         </div>
 
         <div class="form-group">
             <input type="password" class="form-control" name="usu_contraseña" placeholder="Password">
-            {!! $errors->first('usu_contraseña', '<span class="help-block">:message</span>>') !!}
+            {!! $errors->first('usu_contraseña', '<span class="help-block">:message</span>') !!}
         </div>
 
         <button type="submit" class="btn btn-primary">Ingresar</button>
 
         <div class="form-group-d">
             <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" autocomplete="off" />
-            <div class="btn-group">
-                <label for="fancy-checkbox-success" class="btn btn-success">
-                    <span class="checkBoxAllow fas fa-check"></span>
-                <span class="nonCheckBoxAllow fas fa-times"></span>
-                </label>
-                <label for="fancy-checkbox-success" class="btn btn-default active">
-                    Recordarme
-                </label>
-            </div>
+           
         </div>
 
     </form>

@@ -15,21 +15,32 @@ Route::get('/', 'UsuarioController@vista');
 
 Route::post('IniciarSesion', 'UsuarioController@iniciar');
 
+Route::get('/CerrarSesion', 'UsuarioController@cerrarSesion');
+
 Route::get('/Solicitud', 'SolicitudController@mostrar')->name('Solicitud');
 
-Route::get('solicitud/{id}', 'SolicitudController@select');
+Route::get('/Solicitud/generar-sala', 'SolicitudController@select')->name('Solicitud.generar-sala');
 
 Route::post('/Solicitud', 'SolicitudController@generar')->name('generar');
 
-Route::get('/ListarEquipos', 'EquipoController@FiltrarEquipo')->name('Filtrar.filtrar-equipo');
+Route::get('/ListarEquipos/filtrar', 'EquipoController@FiltrarEquipo')->name('ListaEquipos.filtrar');
+
+Route::get('ListaSolicitudes/Buscar', 'SolicitudController@FiltrarSol')->name('ListaSolicitudes.Buscar');
+
+Route::get('/Solicitud/Detalle/{id}','DetalleController@showDetalle');
+
+Route::get('quitarEquipo/{idEquipo}/{idSolicitud}', 'DetalleController@quitarEquipo');
+
+Route::get('/Solicitud/validar-rut', 'SolicitudController@validarRut')->name('Solicitud.validar-rut');
+
+Route::post('/Solicitud/Detalle/modificar', 'DetalleController@modificar')->name('modificar');
 
 Route::get('/Solicitud/buscar-equipo', 'SolicitudController@buscarEquipo')->name('Solicitud.buscar-equipo');
 
-Route::get('/Filtrar', 'EquipoController@Filtrar');
+Route::get('ListaSolicitudes','SolicitudController@vistas');
 
-Route::get('ListaSolicitudes', 'SolicitudController@listarSolicitud');
+Route::get('/Solicituds', 'DynamicPDFController@vista');//prueba
 
-Route::post('/ListaSolicitud','SolicitudController@filtrarSolicitud')->name('Buscar');
 
 Route::get('/create','EquipoController@vista');
 
@@ -54,5 +65,4 @@ Route::get('/detalle-soporte', 'ticketSoporte@detalleS');
 
 
 Route::get('/delete', 'EquipoController@delete');
-
-Route::any('/update', 'EquipoController@update');
+Route::post('/update', 'EquipoController@update');

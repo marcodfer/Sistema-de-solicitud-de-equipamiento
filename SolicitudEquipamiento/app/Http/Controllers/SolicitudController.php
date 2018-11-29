@@ -12,10 +12,13 @@ use App\Equipo;
 use App\Detalle;
 use App\SolicitudEquipamiento;
 use App\Sala;
+use App\Usuario;
 use App\EstSolicitud;
 use DB;
 use Carbon\Carbon;
 use Session;
+use App\Mail\SolicitudEmail;
+use Mail;
 
 class SolicitudController extends Controller
 {
@@ -84,15 +87,23 @@ class SolicitudController extends Controller
             ->with('RechazadoSol',$RechazadoSol);
     }
 
-    public function select(Request $request, $id){
-
+    public function select(Request $request){
         if($request->ajax()){
-            $data = DB::table('sol_salas')
-                ->where('sed_codigo','=',$id)
-                ->select('sal_codigo','sal_numero')
-                ->get();
+            $output='';
+            $query = $request -> get('query');
 
-            return response()->json($data);
+            if($query != ""){
+                $data = DB::table('sol_salas')
+                    ->where('sed_codigo','=',$query)
+                    ->select('sal_codigo','sal_numero')
+                    ->get();
+
+                foreach ($data as $row) {
+                    echo '<option value="'.$row->sal_codigo.'">'.$row->sal_numero.'</option>';
+                }
+            }else{
+                echo '<option value="" disable="true" selected="true">Selecione aula</option>';
+            }
         }
     }
     
@@ -107,6 +118,7 @@ class SolicitudController extends Controller
     		->select('sol_solicitudes.sol_fecha_creacion','sol_solicitudes.sol_fecha_entrega','sol_solicitudes.sol_codigo','sol_solicitudes.usu_rut','sol_solicitudes.est_codigo','sol_solicitudes.sal_codigo')
             ->distinct()
     		->get();
+
 		return view ('ListaSolicitud')
 			->with('ListaS', $Solicitud)
 			->with('TiposEquipo',$TipoEquipo);
@@ -117,28 +129,43 @@ class SolicitudController extends Controller
         $output='';
 
         $query = $request -> get('query');
+        $query1 = $request -> get('query1');
 
-        if ($query != "") {
+        if ($query != "" && $query1 != "") {
             $data = DB::table('sol_equipos')
+                ->where('equ_tipo_equipo','=',$query1)
+                ->where('est_codigo','=',1)
+                ->limit($query)
+                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
+                ->paginate(15);
+        }else if($query != "" && $query1 == ""){
+            $data = DB::table('sol_equipos')
+                ->where('est_codigo','=',1)
                 ->limit($query)
                 ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
                 ->get();
-        }else{
+        }else if($query1 != "" && $query == ""){
             $data = DB::table('sol_equipos')
+                ->where('equ_tipo_equipo','=',$query1)
+                ->where('est_codigo','=',1)
                 ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
-                ->get();
+                ->paginate(15);
+        }else{
+            echo json_encode($output);
         }
 
         $total_row = $data->count();
 
         if ($total_row > 0) {
+            $tabla = array('valor' => 1);
             foreach ($data as $row) {
                 $output.='<tr><td>'.$row->equ_codigo.'</td><td>'.$row->equ_modelo.'</td><td>'.$row->equ_marca.'</td><td>'.$row->equ_numero_serie.'</td></tr>';
             }
         }else{
+            $tabla = array('valor' => 0);
             $output = '
             <tr>
-                <td align="center" colspan="5">No Data Found</td>
+                <td align="center" colspan="5">No quedan equipos disponibles</td>
             </tr>
             ';
         }
@@ -153,6 +180,15 @@ class SolicitudController extends Controller
         $usuarios = json_decode(Session::get('miSesion'));
     	$TipoEquipo = TipoDeEquipo::all();
     	$Sede = Sede::all();
+
+        $result = Usuario::where('usu_rut', '=',$request -> rut)
+            ->get();
+
+        if ($result -> isEmpty()) {
+            return back()->withErrors(['usu_rut' => 'El rut ingresado no existe'])
+                ->withInput(request(['usu_rut']));
+        }
+
 		$equipos = DB::table('sol_equipos')
     		->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
             ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
@@ -160,7 +196,7 @@ class SolicitudController extends Controller
             ->where('sol_tipos_equipo.tip_id','=',$request->input('equ_tipo_equipo'))
             ->limit($request->input('cantidad'))
             ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_equipos.est_codigo')
-            ->get();
+            ->paginate(15); 
 
         if($request->input('generar')){
 			
@@ -170,11 +206,11 @@ class SolicitudController extends Controller
     		$solicitud -> sol_motivo = $request -> sol_motivo;
     		$solicitud -> sol_fecha_creacion = Carbon::now();
     		$solicitud -> sol_fecha_entrega	= $request -> fecha . " " . $request -> hora;
-    		$solicitud -> usu_rut = $usuarios[0]->usu_rut;
+    		$solicitud -> usu_rut = $request -> rut;
     		$solicitud -> sal_codigo = $request -> aula;
     		$solicitud -> est_codigo = 1;
     		$solicitud -> save();
-
+            $request->session()->flash('alert-success', 'Se genero solicitud con exito');
     		$id = $solicitud -> id;
 
     		foreach ($equipos as $equipo) {
@@ -188,8 +224,10 @@ class SolicitudController extends Controller
 				$detalleS -> equ_codigo = $equipo -> equ_codigo;
 				$detalleS -> save();
     		}
-            return redirect('ListaSolicitudes');
+
+            return view('ListaSolicitud');
 		}else{
+            $request->session()->flash('alert-success', 'Hubo un error al generar la solicitud');
 	        return view('/Solicitud')
 	        	->with('TablaInventario', $equipos)
 	        	->with('Sedes',$Sede)
@@ -200,72 +238,90 @@ class SolicitudController extends Controller
 
     }
 
+    public function vistas(Request $request){
+        return view('ListaSolicitud');
 
-    public function listarSolicitud(){
+    }
+
+    public function FiltrarSol(Request $request){
         $EstSolicitud = EstSolicitud::all();
         $usuarios = json_decode(Session::get('miSesion'));
 
+        $output='';
+
+        $query = $request -> get('query');
+
         if($usuarios[0]->tip_codigo == 4){
-            $lSolicitud = DB::table('sol_solicitudes')
+           if ($query != "") {
+            $data = DB::table('sol_solicitudes')
                 ->join('sol_estados_solicitud','sol_solicitudes.est_codigo','=','sol_estados_solicitud.est_codigo')
                 ->select('sol_fecha_entrega','sol_codigo','sol_estados_solicitud.est_nombre','sol_titulo','usu_rut','sal_codigo')
-                ->distinct()
-                ->paginate(5);
-
-            if(($lSolicitud->count()) < 0){
-                $error = " No se encontraron registros ";
-            }else{
-                $error = null;
-            }
-
-            return view('ListaSolicitud')
-                ->with('ListaS',$lSolicitud)
-                ->with('EstSolicitudes',$EstSolicitud)
-                ->with('errores',$error);
+                ->where('sal_codigo', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_titulo', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_fecha_entrega', 'LIKE', '%'.$query.'%')
+                ->orWhere('usu_rut', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_estados_solicitud.est_nombre', 'LIKE', '%'.$query.'%')
+                ->orWhere('sal_codigo', 'LIKE', '%'.$query.'%')
+                ->paginate(15);
         }else{
-            $lSolicitud = DB::table('sol_solicitudes')
+            $data = DB::table('sol_solicitudes')
+                ->join('sol_estados_solicitud','sol_solicitudes.est_codigo','=','sol_estados_solicitud.est_codigo')
+                ->select('sol_fecha_entrega','sol_codigo','sol_estados_solicitud.est_nombre','sol_titulo','usu_rut','sal_codigo')
+                ->paginate(15);
+        }
+
+            $total_row = $data->count();
+
+        if ($total_row > 0) {
+            foreach ($data as $row) {
+                $output.='<tr><td>'.$row->sal_codigo.'</td><td>'.$row->sol_titulo.'</td><td>'.$row->sol_fecha_entrega.'</td><td>'.$row->usu_rut.'</td><td>'.$row->est_nombre.'</td><td>'.$row->sal_codigo.'</td><td><a href="/Solicitud/Detalle/'.$row->sol_codigo.'" ><input type="button" id="detalle" value="..." ></a></td></tr>';
+            }
+        }else{
+            $output = '
+            <tr>
+                <td align="center" colspan="5">No quedan solicitudes disponibles</td>
+            </tr>
+            ';
+        }
+        echo json_encode($output);
+
+        
+        }else{
+           if ($query != "") {
+            $data = DB::table('sol_solicitudes')
                 ->join('sol_estados_solicitud','sol_solicitudes.est_codigo','=','sol_estados_solicitud.est_codigo')
                 ->select('sol_fecha_entrega','sol_codigo','sol_estados_solicitud.est_nombre','sol_titulo','usu_rut','sal_codigo')
                 ->where('usu_rut','=',$usuarios[0]->usu_rut)
-                ->distinct()
-                ->paginate(5);
-
-            if(($lSolicitud->count()) < 0){
-                $error = " No se encontraron registros ";
-            }else{
-                $error = null;
-            }
-
-            return view('ListaSolicitud')
-                ->with('ListaS',$lSolicitud)
-                ->with('EstSolicitudes',$EstSolicitud)
-                ->with('errores',$error);
+                ->where('sal_codigo', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_titulo', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_fecha_entrega', 'LIKE', '%'.$query.'%')
+                ->orWhere('usu_rut', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_estados_solicitud.est_nombre', 'LIKE', '%'.$query.'%')
+                ->orWhere('sal_codigo', 'LIKE', '%'.$query.'%')
+                ->paginate(15);
+        }else{
+            $data = DB::table('sol_solicitudes')
+                ->join('sol_estados_solicitud','sol_solicitudes.est_codigo','=','sol_estados_solicitud.est_codigo')
+                ->where('usu_rut','=',$usuarios[0]->usu_rut)
+                ->select('sol_fecha_entrega','sol_codigo','sol_estados_solicitud.est_nombre','sol_titulo','usu_rut','sal_codigo')
+               ->paginate(15);
         }
-    }
 
-    public function buscarSolicitud($search){
+            $total_row = $data->count();
 
-    }
-
-    public function filtrarSolicitud(Request $request){
-        $TipoEquipo = TipoDeEquipo::all();
-        $ticket = DB::table('sol_detalle_solicitud')
-                ->join('sol_solicitudes','sol_solicitudes.sol_codigo','=','sol_detalle_solicitud.sol_codigo')
-                ->join('sol_equipos','sol_equipos.equ_codigo','=','sol_detalle_solicitud.equ_codigo')
-                /* Busqueda en general si el usuario pertenece al grupo administrador
-                if ($usuarios[3] != 4 ) {
-                ->where('sol_solicitudes.usurut','=',$usuarios[0]->usu_rut)
-                }     */ 
-                ->select('sol_solicitudes.sol_fecha_creacion','sol_solicitudes.sol_fecha_entrega','sol_solicitudes.sol_codigo','sol_solicitudes.usu_rut','sol_solicitudes.sal_codigo')
-                ->where('sol_solicitudes.sol_fecha_creacion','=',$request->input('date_at'))
-                ->orwhere('sol_solicitudes.sol_fecha_entrega','=',$request->input('date_at'))
-                ->orwhere('sol_solicitudes.sol_codigo',"=",$request->input('qTicket'))
-                ->orwhere('sol_equipos.equ_tipo_equipo','=',$request->input('tEquipo'))
-                ->distinct()
-                ->paginate(5);
-                return view('ListaSolicitud')
-                        ->with('ListaS',$ticket)
-                        ->with('TiposEquipo',$TipoEquipo);
+        if ($total_row > 0) {
+            foreach ($data as $row) {
+                $output.='<tr><td>'.$row->sal_codigo.'</td><td>'.$row->sol_titulo.'</td><td>'.$row->sol_fecha_entrega.'</td><td>'.$row->usu_rut.'</td><td>'.$row->est_nombre.'</td><td>'.$row->sal_codigo.'</td><td><a href="/Solicitud/Detalle'.$row->sol_codigo.'" ><input type="button" id="detalle" value="..." ></a></td></tr>';
+            }
+        }else{
+            $output = '
+            <tr>
+                <td align="center" colspan="5">No quedan solicitudes disponibles</td>
+            </tr>
+            ';
+        }
+        echo json_encode($output);
+        }
     }
 
 }

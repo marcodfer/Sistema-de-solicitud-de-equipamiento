@@ -56,19 +56,7 @@ class EquipoController extends Controller
 
     public function Filtrar(Request $request){
         $input = $request->get('TBuscar'); 
-        dd($input);   
-
-
-            $tipoequipo =  TipoDeEquipo::all();
-
-            $Equipo =  DB::table('sol_equipos')
-            ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
-            ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
-            ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre','equ_fecha_adquisicion')
-            ->paginate(3)
-            ->get();
-    return view ('/ListarEquipos', ['TablaInventario'=>$Equipo])
-    ->with('tipoequipo', $tipoequipo);
+    return view ('/ListarEquipos');
     }
 
 
@@ -129,41 +117,42 @@ class EquipoController extends Controller
 
 
    public function FiltrarEquipo(Request $request){
-
         //metodo text
+    
         $output='';
 
         $query = $request -> get('query');
-        $query1 = $request -> get('query1');
+
 
         if ($query != "") {
-            $data = DB::table('sol_equipos')
-                ->where('equ_tipo_equipo','=')
-                ->where('est_codigo','=',1)
-                ->limit($query)
-                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
-                ->get();
-        }else if($query != ""){
-            $data = DB::table('sol_equipos')
-                ->where('est_codigo','=',1)
-                ->limit($query)
-                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
-                ->get();
-        }else if($query1 != ""){
-            $data = DB::table('sol_equipos')
-                ->where('equ_tipo_equipo','=')
-                ->where('est_codigo','=',1)
-                ->select('equ_codigo','equ_modelo','equ_marca','equ_numero_serie')
-                ->get();
+            $data = DB::table('sol_equipos')  
+            ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
+            ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
+            ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre', 'equ_fecha_adquisicion')   
+                ->where('equ_codigo', 'LIKE', '%'.$query.'%')
+                ->orWhere('equ_fecha_adquisicion', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_tipos_equipo.tip_nombre', 'LIKE', '%'.$query.'%')
+                ->orWhere('equ_numero_serie', 'LIKE', '%'.$query.'%')
+                ->orWhere('equ_marca', 'LIKE', '%'.$query.'%')
+                ->orWhere('equ_modelo', 'LIKE', '%'.$query.'%')
+                ->orWhere('sol_estados_equipo.est_nombre', 'LIKE', '%'.$query.'%')->paginate(4);
+                
         }else{
-            echo json_encode($output);
+            $data = DB::table('sol_equipos')  
+            ->join('sol_estados_equipo','sol_estados_equipo.est_codigo','=','sol_equipos.est_codigo')
+            ->join('sol_tipos_equipo','sol_equipos.equ_tipo_equipo','=','sol_tipos_equipo.tip_id')
+               ->select('sol_equipos.equ_codigo','equ_modelo','equ_marca','equ_numero_serie','sol_estados_equipo.est_nombre','sol_tipos_equipo.tip_nombre', 'equ_fecha_adquisicion')
+                ->paginate(15);
         }
 
         $total_row = $data->count();
 
         if ($total_row > 0) {
             foreach ($data as $row) {
-                $output.='<tr><td>'.$row->equ_codigo.'</td><td>'.$row->equ_modelo.'</td><td>'.$row->equ_marca.'</td><td>'.$row->equ_numero_serie.'</td></tr>';
+                $output.='<tr><td>'.$row->equ_codigo.'</td><td>'.$row->equ_fecha_adquisicion.'</td><td>'.$row->tip_nombre.'</td><td>'.$row->equ_modelo.'</td><td>'.$row->equ_numero_serie.'</td><td>'.$row->equ_marca.'</td><td>'.$row->est_nombre.'</td><td><a href="/DetalleDeEquipo/'.$row->equ_codigo.'" ><input type="button" id="detalle" value="..." ></a></td></tr>' ; 
+       
+         
+
             }
         }else{
             $output = '
@@ -172,10 +161,14 @@ class EquipoController extends Controller
             </tr>
             ';
         }
+
 //fin metodo text
+        //return view('ListarEquipos')->with('objetos',$data);
         echo json_encode($output);
+        //;
     
     }
+
 
     public function update(Request $request){
 

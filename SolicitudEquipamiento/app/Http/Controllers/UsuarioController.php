@@ -12,7 +12,7 @@ class UsuarioController extends Controller
 
     public function cerrarSesion(){
     	Session::forget('miSession');
-    	return View::make('welcome');
+    	return redirect()->route('/');
     }
    
 

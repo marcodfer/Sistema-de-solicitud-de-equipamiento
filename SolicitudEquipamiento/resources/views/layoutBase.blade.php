@@ -58,7 +58,7 @@
               <p>Agregar Equipo</p>
             </a>
           </li>
-       <?php } ?>
+        <?php } ?>
         </ul>
       </div>
     </div>
@@ -71,12 +71,11 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-user"></i>
-                  {{$usuarios[0]->usu_nombre}}                </a>  
+                   {{$usuarios[0] -> usu_nombre}}
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="https://umas.ciisa.cl/alumnosnet/alumnos.asp" target="_blank">Portal de Alumnos</a></li>
                   <li class="divider"></li>
-                  <li><a href="logout.php">Salir</a></li>
+                  <li><a href="/CerrarSesion">Salir</a></li>
                 </ul>
               </li>
             </ul>
@@ -101,7 +100,6 @@
   <script src="js/bootstrap.min.js" type="text/javascript"></script>
   <script src="js/material.min.js" type="text/javascript"></script>
   <script src="js/bootstrap-notify.js"></script>
-  <script src="js/chartist.min.js"></script>
   <script src="js/material-dashboard.js"></script>
   <script src="js/demo.js"></script>
 
